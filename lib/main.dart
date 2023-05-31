@@ -1,3 +1,4 @@
+import 'package:change_collect_web/logs/login_screen.dart';
 import 'package:change_collect_web/privacy.dart';
 import 'package:change_collect_web/responsive_layouts/responsive.dart';
 import 'package:change_collect_web/responsive_layouts/responsive_main.dart';
@@ -21,7 +22,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      initialRoute: ResponsiveMain.id,
+      initialRoute: LoginScreen.id,
       routes: {
         Desktop.id: (context) => const Desktop(),
         ResponsiveMain.id: (context) => const ResponsiveMain(),
