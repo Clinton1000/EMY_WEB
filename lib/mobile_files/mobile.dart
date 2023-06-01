@@ -52,8 +52,8 @@ class _MobileState extends State<Mobile> {
                   SizedBox(
                     height: _mediaQuery.size.height * 0.3,
                     width: _mediaQuery.size.width * 0.7,
-                    child: const Column(
-                      children: [
+                    child:  Column(
+                      children: const [
                         Text(
                           'Changecollect Mobile',
                           softWrap: true,
@@ -153,8 +153,8 @@ class _MobileState extends State<Mobile> {
                   const SizedBox(
                     height: 10,
                   ),
-                  const Column(
-                    children: [
+                   Column(
+                    children: const [
                       MyWidgetMobile(imagepath: 'images/home.jpeg'),
                       TextWidgetMobile(
                         textpath: 'Homepage',
@@ -323,12 +323,12 @@ class _MobileState extends State<Mobile> {
                   const SizedBox(
                     height: 20.0,
                   ),
-                  const Row(
+                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                     children: [
                       Column(
                         crossAxisAlignment: CrossAxisAlignment.center,
-                        children: [
+                        children: const [
                           Text(
                             'Products',
                             style: TextStyle(
@@ -357,7 +357,7 @@ class _MobileState extends State<Mobile> {
                       ),
                       Column(
                         crossAxisAlignment: CrossAxisAlignment.center,
-                        children: [
+                        children: const [
                           Text(
                             'Company',
                             style: TextStyle(
@@ -386,7 +386,7 @@ class _MobileState extends State<Mobile> {
                       ),
                       Column(
                         crossAxisAlignment: CrossAxisAlignment.center,
-                        children: [
+                        children: const [
                           Text(
                             'Legal',
                             style: TextStyle(

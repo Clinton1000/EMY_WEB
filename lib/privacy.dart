@@ -26,7 +26,7 @@ class _PrivacyState extends State<Privacy> {
         children: [
           Expanded(
             child: Text(
-                "          words “Changecollect,” “we,” “us,” or “our” refer to any or all                                                                                "),
+                "words ï¿½Changecollect,ï¿½ ï¿½we,ï¿½ ï¿½us,ï¿½ or ï¿½ourï¿½ refer to any or all"),
           ),
         ],
       ),

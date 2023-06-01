@@ -72,8 +72,8 @@ class _DesktopState extends State<Desktop> {
                 SizedBox(
                   height: _mediaQuery.size.height * 0.8,
                   width: _mediaQuery.size.width * 0.4,
-                  child: const Column(
-                    children: [
+                  child:  Column(
+                    children:const [
                       Text(
                         'Changecollect Mobile',
                         softWrap: true,
@@ -183,16 +183,16 @@ class _DesktopState extends State<Desktop> {
             const SizedBox(
               height: 40,
             ),
-            const Row(
+             Row(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-              children: [
+              children:const [
                 MyWidget(imagepath: 'images/home.jpeg'),
                 MyWidget(imagepath: 'images/collect.png'),
               ],
             ),
-            const Row(
+             Row(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-              children: [
+              children:const [
                 TextWidget(
                   textpath: 'Homepage',
                   textpath2:
@@ -208,16 +208,16 @@ class _DesktopState extends State<Desktop> {
             const SizedBox(
               height: 30,
             ),
-            const Row(
+             Row(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-              children: [
+              children:const [
                 MyWidget(imagepath: 'images/give.png'),
                 MyWidget(imagepath: 'images/market.png'),
               ],
             ),
-            const Row(
+             Row(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-              children: [
+              children:const [
                 TextWidget(
                   textpath: 'Give change',
                   textpath2:
@@ -360,12 +360,12 @@ class _DesktopState extends State<Desktop> {
             const SizedBox(
               height: 20,
             ),
-            const Row(
+             Row(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [
                 Column(
                   crossAxisAlignment: CrossAxisAlignment.center,
-                  children: [
+                  children:const [
                     Text(
                       'Products',
                       style: TextStyle(
@@ -394,7 +394,7 @@ class _DesktopState extends State<Desktop> {
                 ),
                 Column(
                   crossAxisAlignment: CrossAxisAlignment.center,
-                  children: [
+                  children:const [
                     Text(
                       'Company',
                       style: TextStyle(
