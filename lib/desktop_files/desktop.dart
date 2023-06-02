@@ -1,9 +1,11 @@
 import 'package:change_collect_web/desktop_files/my_widgets.dart';
 import 'package:change_collect_web/desktop_files/textlist.dart';
 import 'package:change_collect_web/desktop_files/textwidget.dart';
-import 'package:change_collect_web/privacy.dart';
+import 'package:change_collect_web/logs/login_screen.dart';
+import 'package:change_collect_web/logs/onboarding_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:change_collect_web/desktop_files/my_custom_appbar.dart';
+import 'package:go_router/go_router.dart';
 
 class Desktop extends StatefulWidget {
   static const String id = 'desktop';
@@ -172,7 +174,9 @@ class _DesktopState extends State<Desktop> {
                   ),
                 ),
               ),
-              onPressed: () {},
+              onPressed: () {
+
+              },
               child: const Text('Get Started',
                   style: TextStyle(
                       fontFamily: 'SpaceGrotesk',
@@ -473,13 +477,11 @@ class _DesktopState extends State<Desktop> {
               children: [
                 SizedBox(
                   height: _mediaQuery.size.height * 0.1,
-                  width: _mediaQuery.size.width * 0.21,
+                  width: _mediaQuery.size.width * 0.23,
                   child: ListTile(
-                    leading: Padding(
-                      padding: const EdgeInsets.all(18.0),
-                      child: Image.asset('images/copyright.png'),
-                    ),
-                    trailing: const Text(
+                    minLeadingWidth: 10,
+                    leading: Image.asset('images/copyright.png',height: 25,),
+                    title: const Text(
                       '2023 Changecollect. All rights reserved.',
                       style:
                           TextStyle(fontFamily: 'SpaceGrotesk', fontSize: 13.0),

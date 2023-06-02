@@ -1,24 +1,17 @@
-
 import 'package:change_collect_web/logs/registration_screen.dart';
-import 'package:firebase_auth/firebase_auth.dart';
-import 'package:firebase_ui_auth/firebase_ui_auth.dart';
 import 'package:flutter/material.dart';
-
 import 'login_screen.dart';
 
-
-
-
-class OnboardingScreen extends StatefulWidget {
-  static const String id = 'Onboarding_Screen';
-  const OnboardingScreen({super.key});
+class OnboardScreen extends StatefulWidget {
+  static const String id = 'OnboardScreen';
+  const OnboardScreen({super.key});
   // const OnboardingScreen({Key? key}) : super(key: key);
 
   @override
-  State<OnboardingScreen> createState() => _OnboardingScreenState();
+  State<OnboardScreen> createState() => _OnboardScreenState();
 }
 
-class _OnboardingScreenState extends State<OnboardingScreen> {
+class _OnboardScreenState extends State<OnboardScreen> {
   // initially show login page
   bool showLoginScreen = true;
 
@@ -79,3 +72,4 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
 //   }
 //}
 
+}

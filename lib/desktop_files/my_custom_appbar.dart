@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 
+import '../logs/onboarding_screen.dart';
 import '../privacy.dart';
 
 class MyCustomAppbar extends StatefulWidget {
@@ -47,7 +49,7 @@ class _MyCustomAppbarState extends State<MyCustomAppbar> {
                 ),
                 TextButton(
                   onPressed: () {
-                    Navigator.pushNamed(context, Privacy.id);
+                    context.goNamed(Privacy.id);
                   },
                   child: const Text(
                     'Privacy',
@@ -77,7 +79,9 @@ class _MyCustomAppbarState extends State<MyCustomAppbar> {
                               horizontal: 40, vertical: 20)),
                       shape: MaterialStateProperty.all(RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(20)))),
-                  onPressed: () {},
+                  onPressed: () {
+                    context.goNamed(OnboardScreen.id);
+                  },
                   child: const Text('Get Started',
                       style: TextStyle(
                           fontFamily: 'SpaceGrotesk',

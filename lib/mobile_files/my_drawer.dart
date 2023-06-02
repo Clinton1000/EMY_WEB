@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 
+import '../logs/onboarding_screen.dart';
+import '../privacy.dart';
 import 'text_widget_drawer.dart';
 
 class MyDrawer extends StatefulWidget {
@@ -17,6 +20,7 @@ class _MyDrawerState extends State<MyDrawer> {
       backgroundColor: Colors.white,
       elevation: 0,
       child: Column(
+        mainAxisSize: MainAxisSize.min,
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
           DrawerHeader(
@@ -28,6 +32,8 @@ class _MyDrawerState extends State<MyDrawer> {
           Padding(
             padding: tilePadding,
             child: ListTile(
+              minLeadingWidth: 100,
+              isThreeLine: false,
               onTap: () {},
               leading: const TextWidgetDrawer(
                 textpath: 'Products',
@@ -38,6 +44,7 @@ class _MyDrawerState extends State<MyDrawer> {
           Padding(
             padding: tilePadding,
             child: ListTile(
+              minLeadingWidth: 100,
               onTap: () {},
               leading: const TextWidgetDrawer(
                 textpath: 'Resources',
@@ -48,7 +55,10 @@ class _MyDrawerState extends State<MyDrawer> {
           Padding(
             padding: tilePadding,
             child: ListTile(
-              onTap: () {},
+              minLeadingWidth: 100,
+              onTap: () {
+                context.goNamed(Privacy.id);
+              },
               leading: const TextWidgetDrawer(
                 textpath: 'Privacy',
                 textpath2: '',
@@ -58,6 +68,7 @@ class _MyDrawerState extends State<MyDrawer> {
           Padding(
             padding: tilePadding,
             child: ListTile(
+              minLeadingWidth: 100,
               onTap: () {},
               leading: const TextWidgetDrawer(
                 textpath: 'FAQ',
@@ -68,7 +79,10 @@ class _MyDrawerState extends State<MyDrawer> {
           Padding(
             padding: tilePadding,
             child: ListTile(
-              onTap: () {},
+              minLeadingWidth: 100,
+              onTap: () {
+                context.goNamed(OnboardScreen.id);
+              },
               leading: const TextWidgetDrawer(
                 textpath: 'Get Started',
                 textpath2: '',
