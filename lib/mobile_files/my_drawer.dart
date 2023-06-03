@@ -21,76 +21,47 @@ class _MyDrawerState extends State<MyDrawer> {
       elevation: 0,
       child: Column(
         mainAxisSize: MainAxisSize.min,
-        crossAxisAlignment: CrossAxisAlignment.center,
+        crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          DrawerHeader(
-            child: Padding(
-              padding: const EdgeInsets.all(20.0),
-              child: Image.asset('images/logo1.png'),
-            ),
-          ),
-          Padding(
-            padding: tilePadding,
-            child: ListTile(
-              minLeadingWidth: 100,
-              isThreeLine: false,
-              onTap: () {},
-              leading: const TextWidgetDrawer(
-                textpath: 'Products',
-                textpath2: '',
+          Center(
+            child: DrawerHeader(
+
+              child: Padding(
+                padding: const EdgeInsets.all(20.0),
+                child: Image.asset('images/logo1.png'),
               ),
             ),
           ),
-          Padding(
-            padding: tilePadding,
-            child: ListTile(
-              minLeadingWidth: 100,
-              onTap: () {},
-              leading: const TextWidgetDrawer(
-                textpath: 'Resources',
-                textpath2: '',
-              ),
-            ),
-          ),
-          Padding(
-            padding: tilePadding,
-            child: ListTile(
-              minLeadingWidth: 100,
-              onTap: () {
-                context.goNamed(Privacy.id);
-              },
-              leading: const TextWidgetDrawer(
-                textpath: 'Privacy',
-                textpath2: '',
-              ),
-            ),
-          ),
-          Padding(
-            padding: tilePadding,
-            child: ListTile(
-              minLeadingWidth: 100,
-              onTap: () {},
-              leading: const TextWidgetDrawer(
-                textpath: 'FAQ',
-                textpath2: '',
-              ),
-            ),
-          ),
-          Padding(
-            padding: tilePadding,
-            child: ListTile(
-              minLeadingWidth: 100,
-              onTap: () {
-                context.goNamed(OnboardScreen.id);
-              },
-              leading: const TextWidgetDrawer(
-                textpath: 'Get Started',
-                textpath2: '',
-              ),
-            ),
-          ),
+          textButton("Products", 0),
+          textButton("Resources", 1),
+          textButton("Privacy", 2),
+          textButton("FAQ", 3),
+          textButton("Get Started", 4),
         ],
       ),
+    );
+  }
+  Widget textButton(String textpath,int index){
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal:5,vertical: 5),
+      child: TextButton(onPressed: (){
+        switch(index){
+          case 2:
+            context.goNamed(Privacy.id);
+            break;
+          case 4:
+            context.goNamed(OnboardScreen.id);
+        }
+      }, child:  Text(
+        textpath,
+        softWrap: true,
+        overflow: TextOverflow.visible,
+        textAlign: TextAlign.center,
+        style: const TextStyle(
+            fontFamily: 'SpaceGrotesk',
+            fontWeight: FontWeight.bold,
+            fontSize: 19.0),
+      ),),
     );
   }
 }

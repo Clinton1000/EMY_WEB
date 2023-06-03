@@ -26,6 +26,7 @@ class _MobileState extends State<Mobile> {
         backgroundColor: Colors.black,
       ),
       drawer: const MyDrawer(),
+
       backgroundColor: Colors.white,
       body: SafeArea(
         child: Padding(
