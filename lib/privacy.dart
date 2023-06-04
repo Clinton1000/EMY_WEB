@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_widget_from_html/flutter_widget_from_html.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class Privacy extends StatefulWidget {
   static const String id = 'privacy';
@@ -543,6 +544,17 @@ at: </font></font></font><a href="mailto:info@Changecollect.com"><font color="#0
 </body>
 </html>
            """,
+            onTapUrl: (url) async {
+              if (await canLaunchUrl(Uri.parse(url))) {
+              await launchUrl(
+              Uri.parse(url),
+              );
+              } else {
+              throw 'Could not launch $url';
+              }
+              return true;
+            },
+
               ),
         ),
       ),
