@@ -12,7 +12,7 @@ import 'my_button.dart';
 class LoginScreen extends StatefulWidget {
   static const String id = 'Login_Screen';
   final Function()? onTap;
-  const LoginScreen({super.key,  this.onTap});
+  const LoginScreen({super.key, this.onTap});
 
   @override
   State<LoginScreen> createState() => _LoginScreenState();
@@ -45,15 +45,15 @@ class _LoginScreenState extends State<LoginScreen> {
 
     // try sign in
     try {
-      UserCredential user= await FirebaseAuth.instance.signInWithEmailAndPassword(
+      UserCredential user =
+          await FirebaseAuth.instance.signInWithEmailAndPassword(
         email: _emailController.text,
         password: _passwordController.text,
       );
-      if(user.user?.uid!=null){
+      if (user.user?.uid != null) {
         context.pop();
       }
       //pop the loading circle
-
     } on FirebaseAuthException catch (e) {
       debugPrint(e.toString());
       // pop the loading circle
@@ -78,7 +78,8 @@ class _LoginScreenState extends State<LoginScreen> {
           title: Center(
             child: Text(
               'Incorrect Email',
-              style: const TextStyle(color: Colors.white),
+              style: const TextStyle(
+                  fontFamily: 'SpaceGrotesk', color: Colors.white),
             ),
           ),
         );
@@ -95,7 +96,8 @@ class _LoginScreenState extends State<LoginScreen> {
           title: Center(
             child: Text(
               'Incorrect Password',
-              style: const TextStyle(color: Colors.white),
+              style: const TextStyle(
+                  fontFamily: 'SpaceGrotesk', color: Colors.white),
             ),
           ),
         );
@@ -111,7 +113,7 @@ class _LoginScreenState extends State<LoginScreen> {
         child: Center(
           child: ResponsiveWidget(
             largeScreen: Container(
-              margin: EdgeInsets.symmetric(horizontal: 15, vertical:20),
+              margin: EdgeInsets.symmetric(horizontal: 15, vertical: 20),
               padding: EdgeInsets.symmetric(horizontal: 10, vertical: 5),
               decoration: BoxDecoration(
                 color: Colors.white,
@@ -127,58 +129,55 @@ class _LoginScreenState extends State<LoginScreen> {
                 children: [
                   Expanded(
                     flex: 5,
-                    child: Container(
-                      child: Column(
-                        children: [
-                          Flexible(
-
-                            child: Image.asset('images/logo1.png'),
-                          ),
-                          Flexible(
-
-                            child: Container(
-
-                              // width: 350,
-                              margin: EdgeInsets.symmetric(horizontal: 5,vertical: 10),
-                              padding: EdgeInsets.symmetric(horizontal: 5,vertical: 10),
-                              decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(20),
-                                color: Colors.white,
-                              ),
-                              child:  Column(
-                                children: [
-                                  Padding(
-                                    padding: EdgeInsets.symmetric(horizontal: 5),
-                                    child: Text(
-                                     " OnBoard Text",
-                                      style: const TextStyle(
-                                          fontFamily: 'SpaceGrotesk',
-                                          fontWeight: FontWeight.bold,
-                                          fontSize: 30.0),
-                                      textAlign: TextAlign.center,
-                                    ),
+                    child: Column(
+                      children: [
+                        Flexible(
+                          child: Image.asset('images/logo1.png'),
+                        ),
+                        Flexible(
+                          child: Container(
+                            // width: 350,
+                            margin: EdgeInsets.symmetric(
+                                horizontal: 5, vertical: 10),
+                            padding: EdgeInsets.symmetric(
+                                horizontal: 5, vertical: 10),
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(20),
+                              color: Colors.white,
+                            ),
+                            child: Column(
+                              children: [
+                                Padding(
+                                  padding: EdgeInsets.symmetric(horizontal: 5),
+                                  child: Text(
+                                    " Fast and Secured",
+                                    style: const TextStyle(
+                                        fontFamily: 'SpaceGrotesk',
+                                        fontWeight: FontWeight.bold,
+                                        fontSize: 30.0),
+                                    textAlign: TextAlign.center,
                                   ),
-                                  SizedBox(height: 20),
-                                  Padding(
-                                    padding: EdgeInsets.symmetric(horizontal:10),
-                                    child: Text(
-                                      DummyData.mediumText,
-                                      style: const TextStyle(
-                                          fontFamily: 'SpaceGrotesk',
-                                          fontWeight: FontWeight.normal,
-                                          fontSize: 20.0),
-                                      textAlign: TextAlign.center,
-                                    ),
+                                ),
+                                SizedBox(height: 20),
+                                Padding(
+                                  padding: EdgeInsets.symmetric(horizontal: 10),
+                                  child: Text(
+                                    DummyData.mediumText,
+                                    style: const TextStyle(
+                                        fontFamily: 'SpaceGrotesk',
+                                        fontWeight: FontWeight.normal,
+                                        fontSize: 20.0),
+                                    textAlign: TextAlign.start,
                                   ),
-                                  SizedBox(
-                                    height: 10,
-                                  ),
-                                ],
-                              ),
+                                ),
+                                SizedBox(
+                                  height: 10,
+                                ),
+                              ],
                             ),
                           ),
-                        ],
-                      ),
+                        ),
+                      ],
                     ),
                   ),
                   Expanded(
@@ -193,14 +192,11 @@ class _LoginScreenState extends State<LoginScreen> {
                             BoxShadow(
                               color: Colors.grey.withOpacity(.2),
                             )
-                          ]
-                      ),
+                          ]),
                       child: SingleChildScrollView(
                         child: Column(
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
-
-
                             // logo
                             Hero(
                               tag: 'logo',
@@ -212,31 +208,35 @@ class _LoginScreenState extends State<LoginScreen> {
 
                             const SizedBox(height: 25.0),
                             Text(
-                             "Login Now",
+                              "welcome back you've been missed!",
                               style: TextStyle(
+                                fontFamily: 'SpaceGrotesk',
                                 fontSize: 26,
                                 fontWeight: FontWeight.w700,
-                                color: Colors.blue,
+                                color: Colors.black,
                               ),
                             ),
                             // welcome back, you've been missed!
-
 
                             const SizedBox(height: 25),
 
                             // email textfield
                             Padding(
-                              padding: const EdgeInsets.symmetric(horizontal: 7.0),
+                              padding:
+                                  const EdgeInsets.symmetric(horizontal: 7.0),
                               child: TextField(
                                 style: TextStyle(color: Colors.black),
                                 keyboardType: TextInputType.emailAddress,
                                 controller: _emailController,
                                 decoration: InputDecoration(
                                   enabledBorder: const OutlineInputBorder(
-                                      borderSide: BorderSide(color: Colors.grey),
-                                      borderRadius: BorderRadius.all(Radius.circular(8.0))),
+                                      borderSide:
+                                          BorderSide(color: Colors.grey),
+                                      borderRadius: BorderRadius.all(
+                                          Radius.circular(8.0))),
                                   focusedBorder: OutlineInputBorder(
-                                    borderSide: BorderSide(color: Colors.grey.shade400),
+                                    borderSide:
+                                        BorderSide(color: Colors.grey.shade400),
                                     borderRadius: BorderRadius.all(
                                       Radius.circular(8.0),
                                     ),
@@ -244,7 +244,9 @@ class _LoginScreenState extends State<LoginScreen> {
                                   fillColor: Colors.grey.shade200,
                                   filled: true,
                                   hintText: 'Enter Your Email',
-                                  hintStyle: TextStyle(color: Colors.grey[500]),
+                                  hintStyle: TextStyle(
+                                      fontFamily: 'SpaceGrotesk',
+                                      color: Colors.grey[500]),
                                 ),
                                 obscureText: false,
                               ),
@@ -254,23 +256,30 @@ class _LoginScreenState extends State<LoginScreen> {
 
                             // password textfield
                             Padding(
-                              padding: const EdgeInsets.symmetric(horizontal: 7.0),
+                              padding:
+                                  const EdgeInsets.symmetric(horizontal: 7.0),
                               child: TextField(
-                                style: TextStyle(color: Colors.black),
+                                style: TextStyle(
+                                    fontFamily: 'SpaceGrotesk',
+                                    color: Colors.black),
                                 controller: _passwordController,
                                 decoration: InputDecoration(
                                     enabledBorder: const OutlineInputBorder(
-                                        borderSide: BorderSide(color: Colors.grey),
-                                        borderRadius:
-                                        BorderRadius.all(Radius.circular(8.0))),
+                                        borderSide:
+                                            BorderSide(color: Colors.grey),
+                                        borderRadius: BorderRadius.all(
+                                            Radius.circular(8.0))),
                                     focusedBorder: OutlineInputBorder(
-                                        borderSide: BorderSide(color: Colors.grey.shade400),
-                                        borderRadius:
-                                        BorderRadius.all(Radius.circular(8.0))),
+                                        borderSide: BorderSide(
+                                            color: Colors.grey.shade400),
+                                        borderRadius: BorderRadius.all(
+                                            Radius.circular(8.0))),
                                     fillColor: Colors.grey.shade200,
                                     filled: true,
                                     hintText: 'Enter Your Password',
-                                    hintStyle: TextStyle(color: Colors.grey[500])),
+                                    hintStyle: TextStyle(
+                                        fontFamily: 'SpaceGrotesk',
+                                        color: Colors.grey[500])),
                                 obscureText: true,
                               ),
                             ),
@@ -279,17 +288,21 @@ class _LoginScreenState extends State<LoginScreen> {
 
                             // forgot password?
                             Padding(
-                              padding: const EdgeInsets.symmetric(horizontal: 25.0),
+                              padding:
+                                  const EdgeInsets.symmetric(horizontal: 25.0),
                               child: GestureDetector(
                                 onTap: () {
-                                  Navigator.pushNamed(context, Forgot_Password.id);
+                                  Navigator.pushNamed(
+                                      context, ForgotPassword.id);
                                 },
                                 child: Row(
                                   mainAxisAlignment: MainAxisAlignment.end,
                                   children: [
                                     Text(
                                       'Forgot Password?',
-                                      style: TextStyle(color: Colors.grey[600]),
+                                      style: TextStyle(
+                                          fontFamily: 'SpaceGrotesk',
+                                          color: Colors.grey[600]),
                                     ),
                                   ],
                                 ),
@@ -308,7 +321,8 @@ class _LoginScreenState extends State<LoginScreen> {
 
                             // or continue with
                             Padding(
-                              padding: const EdgeInsets.symmetric(horizontal: 25.0),
+                              padding:
+                                  const EdgeInsets.symmetric(horizontal: 25.0),
                               child: Row(
                                 children: [
                                   Expanded(
@@ -318,7 +332,8 @@ class _LoginScreenState extends State<LoginScreen> {
                                     ),
                                   ),
                                   Padding(
-                                    padding: const EdgeInsets.symmetric(horizontal: 10.0),
+                                    padding: const EdgeInsets.symmetric(
+                                        horizontal: 10.0),
                                     child: Text(
                                       'Or',
                                       style: TextStyle(color: Colors.grey[700]),
@@ -347,7 +362,9 @@ class _LoginScreenState extends State<LoginScreen> {
                               children: [
                                 Text(
                                   'Not a member?',
-                                  style: TextStyle(color: Colors.grey[700]),
+                                  style: TextStyle(
+                                      fontFamily: 'SpaceGrotesk',
+                                      color: Colors.grey[700]),
                                 ),
                                 const SizedBox(width: 4),
                                 GestureDetector(
@@ -355,7 +372,8 @@ class _LoginScreenState extends State<LoginScreen> {
                                   child: const Text(
                                     'Register now',
                                     style: TextStyle(
-                                      color: Colors.blue,
+                                      fontFamily: 'SpaceGrotesk',
+                                      color: Color(0xff3964ff),
                                       fontWeight: FontWeight.bold,
                                     ),
                                   ),
@@ -370,6 +388,7 @@ class _LoginScreenState extends State<LoginScreen> {
                 ],
               ),
             ),
+            //MEDIUM SCREEN
             mediumScreen: Container(
               margin: EdgeInsets.symmetric(horizontal: 100),
               padding: EdgeInsets.symmetric(horizontal: 10),
@@ -380,14 +399,11 @@ class _LoginScreenState extends State<LoginScreen> {
                     BoxShadow(
                       color: Colors.grey.withOpacity(.2),
                     )
-                  ]
-              ),
+                  ]),
               child: SingleChildScrollView(
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-
-
                     // logo
                     Hero(
                       tag: 'logo',
@@ -401,11 +417,12 @@ class _LoginScreenState extends State<LoginScreen> {
 
                     // welcome back, you've been missed!
                     Text(
-                      "Login Now",
+                      "welcome back you've been missed!",
                       style: TextStyle(
+                        fontFamily: 'SpaceGrotesk',
                         fontSize: 26,
                         fontWeight: FontWeight.w700,
-                        color: Colors.blue,
+                        color: Colors.black,
                       ),
                     ),
 
@@ -421,7 +438,8 @@ class _LoginScreenState extends State<LoginScreen> {
                         decoration: InputDecoration(
                           enabledBorder: const OutlineInputBorder(
                               borderSide: BorderSide(color: Colors.grey),
-                              borderRadius: BorderRadius.all(Radius.circular(8.0))),
+                              borderRadius:
+                                  BorderRadius.all(Radius.circular(8.0))),
                           focusedBorder: OutlineInputBorder(
                             borderSide: BorderSide(color: Colors.grey.shade400),
                             borderRadius: BorderRadius.all(
@@ -431,7 +449,9 @@ class _LoginScreenState extends State<LoginScreen> {
                           fillColor: Colors.grey.shade200,
                           filled: true,
                           hintText: 'Enter Your Email',
-                          hintStyle: TextStyle(color: Colors.grey[500]),
+                          hintStyle: TextStyle(
+                              fontFamily: 'SpaceGrotesk',
+                              color: Colors.grey[500]),
                         ),
                         obscureText: false,
                       ),
@@ -449,15 +469,18 @@ class _LoginScreenState extends State<LoginScreen> {
                             enabledBorder: const OutlineInputBorder(
                                 borderSide: BorderSide(color: Colors.grey),
                                 borderRadius:
-                                BorderRadius.all(Radius.circular(8.0))),
+                                    BorderRadius.all(Radius.circular(8.0))),
                             focusedBorder: OutlineInputBorder(
-                                borderSide: BorderSide(color: Colors.grey.shade400),
+                                borderSide:
+                                    BorderSide(color: Colors.grey.shade400),
                                 borderRadius:
-                                BorderRadius.all(Radius.circular(8.0))),
+                                    BorderRadius.all(Radius.circular(8.0))),
                             fillColor: Colors.grey.shade200,
                             filled: true,
                             hintText: 'Enter Your Password',
-                            hintStyle: TextStyle(color: Colors.grey[500])),
+                            hintStyle: TextStyle(
+                                fontFamily: 'SpaceGrotesk',
+                                color: Colors.grey[500])),
                         obscureText: true,
                       ),
                     ),
@@ -469,14 +492,16 @@ class _LoginScreenState extends State<LoginScreen> {
                       padding: const EdgeInsets.symmetric(horizontal: 25.0),
                       child: GestureDetector(
                         onTap: () {
-                          Navigator.pushNamed(context, Forgot_Password.id);
+                          Navigator.pushNamed(context, ForgotPassword.id);
                         },
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.end,
                           children: [
                             Text(
                               'Forgot Password?',
-                              style: TextStyle(color: Colors.grey[600]),
+                              style: TextStyle(
+                                  fontFamily: 'SpaceGrotesk',
+                                  color: Colors.grey[600]),
                             ),
                           ],
                         ),
@@ -505,10 +530,13 @@ class _LoginScreenState extends State<LoginScreen> {
                             ),
                           ),
                           Padding(
-                            padding: const EdgeInsets.symmetric(horizontal: 10.0),
+                            padding:
+                                const EdgeInsets.symmetric(horizontal: 10.0),
                             child: Text(
                               'Or',
-                              style: TextStyle(color: Colors.grey[700]),
+                              style: TextStyle(
+                                  fontFamily: 'SpaceGrotesk',
+                                  color: Colors.grey[700]),
                             ),
                           ),
                           Expanded(
@@ -534,7 +562,9 @@ class _LoginScreenState extends State<LoginScreen> {
                       children: [
                         Text(
                           'Not a member?',
-                          style: TextStyle(color: Colors.grey[700]),
+                          style: TextStyle(
+                              fontFamily: 'SpaceGrotesk',
+                              color: Colors.grey[700]),
                         ),
                         const SizedBox(width: 4),
                         GestureDetector(
@@ -542,7 +572,8 @@ class _LoginScreenState extends State<LoginScreen> {
                           child: const Text(
                             'Register now',
                             style: TextStyle(
-                              color: Colors.blue,
+                              fontFamily: 'SpaceGrotesk',
+                              color: Color(0xff3964ff),
                               fontWeight: FontWeight.bold,
                             ),
                           ),
@@ -553,6 +584,7 @@ class _LoginScreenState extends State<LoginScreen> {
                 ),
               ),
             ),
+            //SMALL SCREEN
             smallScreen: Container(
               margin: EdgeInsets.symmetric(horizontal: 30),
               padding: EdgeInsets.symmetric(horizontal: 10),
@@ -563,21 +595,17 @@ class _LoginScreenState extends State<LoginScreen> {
                     BoxShadow(
                       color: Colors.grey.withOpacity(.2),
                     )
-                  ]
-              ),
+                  ]),
               child: SingleChildScrollView(
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-
-
                     // logo
-                    Text(
-                      "Login Now",
-                      style: TextStyle(
-                        fontSize: 26,
-                        fontWeight: FontWeight.w700,
-                        color: Colors.blue,
+                    Hero(
+                      tag: 'logo',
+                      child: SizedBox(
+                        height: 150.0,
+                        child: Image.asset('images/logo1.png'),
                       ),
                     ),
 
@@ -585,8 +613,9 @@ class _LoginScreenState extends State<LoginScreen> {
 
                     // welcome back, you've been missed!
                     Text(
-                      'Welcome',
+                      "welcome back you've been missed!",
                       style: TextStyle(
+                        fontFamily: 'SpaceGrotesk',
                         color: Colors.grey[700],
                         fontSize: 16,
                       ),
@@ -604,7 +633,8 @@ class _LoginScreenState extends State<LoginScreen> {
                         decoration: InputDecoration(
                           enabledBorder: const OutlineInputBorder(
                               borderSide: BorderSide(color: Colors.grey),
-                              borderRadius: BorderRadius.all(Radius.circular(8.0))),
+                              borderRadius:
+                                  BorderRadius.all(Radius.circular(8.0))),
                           focusedBorder: OutlineInputBorder(
                             borderSide: BorderSide(color: Colors.grey.shade400),
                             borderRadius: BorderRadius.all(
@@ -614,7 +644,9 @@ class _LoginScreenState extends State<LoginScreen> {
                           fillColor: Colors.grey.shade200,
                           filled: true,
                           hintText: 'Enter Your Email',
-                          hintStyle: TextStyle(color: Colors.grey[500]),
+                          hintStyle: TextStyle(
+                              fontFamily: 'SpaceGrotesk',
+                              color: Colors.grey[500]),
                         ),
                         obscureText: false,
                       ),
@@ -632,15 +664,18 @@ class _LoginScreenState extends State<LoginScreen> {
                             enabledBorder: const OutlineInputBorder(
                                 borderSide: BorderSide(color: Colors.grey),
                                 borderRadius:
-                                BorderRadius.all(Radius.circular(8.0))),
+                                    BorderRadius.all(Radius.circular(8.0))),
                             focusedBorder: OutlineInputBorder(
-                                borderSide: BorderSide(color: Colors.grey.shade400),
+                                borderSide:
+                                    BorderSide(color: Colors.grey.shade400),
                                 borderRadius:
-                                BorderRadius.all(Radius.circular(8.0))),
+                                    BorderRadius.all(Radius.circular(8.0))),
                             fillColor: Colors.grey.shade200,
                             filled: true,
                             hintText: 'Enter Your Password',
-                            hintStyle: TextStyle(color: Colors.grey[500])),
+                            hintStyle: TextStyle(
+                                fontFamily: 'SpaceGrotesk',
+                                color: Colors.grey[500])),
                         obscureText: true,
                       ),
                     ),
@@ -652,14 +687,16 @@ class _LoginScreenState extends State<LoginScreen> {
                       padding: const EdgeInsets.symmetric(horizontal: 25.0),
                       child: GestureDetector(
                         onTap: () {
-                          Navigator.pushNamed(context, Forgot_Password.id);
+                          Navigator.pushNamed(context, ForgotPassword.id);
                         },
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.end,
                           children: [
                             Text(
                               'Forgot Password?',
-                              style: TextStyle(color: Colors.grey[600]),
+                              style: TextStyle(
+                                  fontFamily: 'SpaceGrotesk',
+                                  color: Colors.grey[600]),
                             ),
                           ],
                         ),
@@ -688,10 +725,13 @@ class _LoginScreenState extends State<LoginScreen> {
                             ),
                           ),
                           Padding(
-                            padding: const EdgeInsets.symmetric(horizontal: 10.0),
+                            padding:
+                                const EdgeInsets.symmetric(horizontal: 10.0),
                             child: Text(
                               'Or',
-                              style: TextStyle(color: Colors.grey[700]),
+                              style: TextStyle(
+                                  fontFamily: 'SpaceGrotesk',
+                                  color: Colors.grey[700]),
                             ),
                           ),
                           Expanded(
@@ -717,7 +757,9 @@ class _LoginScreenState extends State<LoginScreen> {
                       children: [
                         Text(
                           'Not a member?',
-                          style: TextStyle(color: Colors.grey[700]),
+                          style: TextStyle(
+                              fontFamily: 'SpaceGrotesk',
+                              color: Colors.grey[700]),
                         ),
                         const SizedBox(width: 4),
                         GestureDetector(
@@ -725,7 +767,8 @@ class _LoginScreenState extends State<LoginScreen> {
                           child: const Text(
                             'Register now',
                             style: TextStyle(
-                              color: Colors.blue,
+                              fontFamily: 'SpaceGrotesk',
+                              color: Color(0xff3964ff),
                               fontWeight: FontWeight.bold,
                             ),
                           ),
@@ -742,112 +785,3 @@ class _LoginScreenState extends State<LoginScreen> {
     );
   }
 }
-
-//   @override
-//   Widget build(BuildContext context) {
-//     return Scaffold(
-//       backgroundColor: Colors.white,
-//       body: SafeArea(
-//         child: Padding(
-//           padding: EdgeInsets.symmetric(horizontal: 24.0),
-//           child: SingleChildScrollView(
-//             child: Column(
-//               mainAxisAlignment: MainAxisAlignment.center,
-//               crossAxisAlignment: CrossAxisAlignment.stretch,
-//               children: <Widget>[
-//                 Hero(
-//                   tag: 'logo',
-//                   child: Container(
-//                     height: 300.0,
-//                     child: Image.asset('images/CC Icon2i.jpg'),
-//                   ),
-//                 ),
-//                 SizedBox(
-//                   height: 48.0,
-//                 ),
-//                 TextField(
-//                   onChanged: (value) {
-//                     //Do something with the user input.
-//                   },
-//                   keyboardType: TextInputType.emailAddress,
-//                   textAlign: TextAlign.center,
-//                   style: TextStyle(color: Colors.black),
-//                   decoration: InputDecoration(
-//                     hintStyle: TextStyle(color: Colors.grey),
-//                     hintText: 'Enter your email',
-//                     contentPadding:
-//                         EdgeInsets.symmetric(vertical: 10.0, horizontal: 20.0),
-//                     border: OutlineInputBorder(
-//                       borderRadius: BorderRadius.all(Radius.circular(32.0)),
-//                     ),
-//                     enabledBorder: OutlineInputBorder(
-//                       borderSide:
-//                           BorderSide(color: Colors.lightBlueAccent, width: 1.0),
-//                       borderRadius: BorderRadius.all(Radius.circular(32.0)),
-//                     ),
-//                     focusedBorder: OutlineInputBorder(
-//                       borderSide:
-//                           BorderSide(color: Colors.lightBlueAccent, width: 2.0),
-//                       borderRadius: BorderRadius.all(Radius.circular(32.0)),
-//                     ),
-//                   ),
-//                 ),
-//                 SizedBox(
-//                   height: 8.0,
-//                 ),
-//                 TextField(
-//                   onChanged: (value) {
-//                     //Do something with the user input.
-//                   },
-//                   obscureText: true,
-//                   textAlign: TextAlign.center,
-//                   style: TextStyle(color: Colors.black),
-//                   decoration: InputDecoration(
-//                     hintStyle: TextStyle(color: Colors.grey),
-//                     hintText: 'Enter your password.',
-//                     contentPadding:
-//                         EdgeInsets.symmetric(vertical: 10.0, horizontal: 20.0),
-//                     border: OutlineInputBorder(
-//                       borderRadius: BorderRadius.all(Radius.circular(32.0)),
-//                     ),
-//                     enabledBorder: OutlineInputBorder(
-//                       borderSide:
-//                           BorderSide(color: Colors.lightBlueAccent, width: 1.0),
-//                       borderRadius: BorderRadius.all(Radius.circular(32.0)),
-//                     ),
-//                     focusedBorder: OutlineInputBorder(
-//                       borderSide:
-//                           BorderSide(color: Colors.lightBlueAccent, width: 2.0),
-//                       borderRadius: BorderRadius.all(Radius.circular(32.0)),
-//                     ),
-//                   ),
-//                 ),
-//                 SizedBox(
-//                   height: 24.0,
-//                 ),
-//                 Padding(
-//                   padding: EdgeInsets.symmetric(vertical: 16.0),
-//                   child: Material(
-//                     color: Colors.lightBlueAccent,
-//                     borderRadius: BorderRadius.all(Radius.circular(30.0)),
-//                     elevation: 5.0,
-//                     child: MaterialButton(
-//                       onPressed: () {
-//                         //Implement login functionality.
-//                       },
-//                       minWidth: 200.0,
-//                       height: 42.0,
-//                       child: Text(
-//                         'Log In',
-//                       ),
-//                     ),
-//                   ),
-//                 ),
-//               ],
-//             ),
-//           ),
-//         ),
-//       ),
-//     );
-//   }
-// }

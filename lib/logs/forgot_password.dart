@@ -1,16 +1,14 @@
 import 'package:flutter/material.dart';
 
-import 'my_button.dart';
-
-class Forgot_Password extends StatefulWidget {
-  static const String id = 'Forgot_Password';
-  const Forgot_Password({Key? key}) : super(key: key);
+class ForgotPassword extends StatefulWidget {
+  static const String id = 'ForgotPassword';
+  const ForgotPassword({Key? key}) : super(key: key);
 
   @override
-  State<Forgot_Password> createState() => _Forgot_PasswordState();
+  State<ForgotPassword> createState() => _ForgotPasswordState();
 }
 
-class _Forgot_PasswordState extends State<Forgot_Password> {
+class _ForgotPasswordState extends State<ForgotPassword> {
   final _forgotpasswordController = TextEditingController();
   @override
   Widget build(BuildContext context) {
@@ -28,7 +26,7 @@ class _Forgot_PasswordState extends State<Forgot_Password> {
                   tag: 'logo',
                   child: SizedBox(
                     height: 400.0,
-                    child: Image.asset('images/CC Icon2i.jpg'),
+                    child: Image.asset('images/logo1.png'),
                   ),
                 ),
                 const SizedBox(
@@ -37,7 +35,8 @@ class _Forgot_PasswordState extends State<Forgot_Password> {
                 const Center(
                   child: Text(
                     'Enter your email to receive a password reset link',
-                    style: TextStyle(color: Colors.black54),
+                    style: TextStyle(
+                        fontFamily: 'SpaceGrotesk', color: Colors.black54),
                   ),
                 ),
                 const SizedBox(
@@ -57,7 +56,8 @@ class _Forgot_PasswordState extends State<Forgot_Password> {
                       fillColor: Colors.grey.shade200,
                       filled: true,
                       hintText: 'Enter Your Email',
-                      hintStyle: TextStyle(color: Colors.grey[500])),
+                      hintStyle: TextStyle(
+                          fontFamily: 'SpaceGrotesk', color: Colors.grey[500])),
                   obscureText: false,
                 ),
                 const SizedBox(height: 25),
@@ -69,7 +69,12 @@ class _Forgot_PasswordState extends State<Forgot_Password> {
                   )),
                   onPressed: () {},
                   color: Colors.black,
-                  child: const Text('Reset Password'),
+                  child: const Text(
+                    'Reset Password',
+                    style: TextStyle(
+                      fontFamily: 'SpaceGrotesk',
+                    ),
+                  ),
                 )
               ],
             ),

@@ -1,5 +1,7 @@
 import 'package:change_collect_web/desktop_files/textlist.dart';
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
+import '../logs/onboarding_screen.dart';
 import 'my_drawer.dart';
 import 'my_widget_mobile.dart';
 import 'textwidgetmobile.dart';
@@ -26,7 +28,6 @@ class _MobileState extends State<Mobile> {
         backgroundColor: Colors.black,
       ),
       drawer: const MyDrawer(),
-
       backgroundColor: Colors.white,
       body: SafeArea(
         child: Padding(
@@ -38,13 +39,9 @@ class _MobileState extends State<Mobile> {
                 Container(
                   margin: const EdgeInsets.symmetric(horizontal: 100.0),
                   padding: const EdgeInsets.all(10.0),
-                  decoration: BoxDecoration(
-                    color: Colors.black,
-                    borderRadius: BorderRadius.circular(20.0),
-                  ),
                   height: _mediaQuery.size.height * 0.5,
                   width: _mediaQuery.size.width * 0.4,
-                  child: Image.asset('images/landing_page.png'),
+                  child: Image.asset('images/landing_page.jpg'),
                 ),
                 const SizedBox(
                   height: 20,
@@ -52,9 +49,9 @@ class _MobileState extends State<Mobile> {
                 SizedBox(
                   height: _mediaQuery.size.height * 0.3,
                   width: _mediaQuery.size.width * 0.7,
-                  child:  Column(
-                    children: const [
-                      Text(
+                  child: Column(
+                    children: [
+                      const Text(
                         'Changecollect Mobile',
                         softWrap: true,
                         overflow: TextOverflow.visible,
@@ -64,39 +61,48 @@ class _MobileState extends State<Mobile> {
                             fontWeight: FontWeight.bold,
                             fontSize: 25),
                       ),
-                      SizedBox(
+                      const SizedBox(
                         height: 10,
                       ),
-                      Text(
-                        'Collect and give change as you transact with cash! Our mobile app gives you the ability to instantly turn your physical cash to a digital currency',
-                        softWrap: true,
-                        overflow: TextOverflow.visible,
-                        textAlign: TextAlign.center,
-                        style: TextStyle(
-                            fontFamily: 'SpaceGrotesk',
-                            fontWeight: FontWeight.normal,
-                            fontSize: 20.0),
+                      SizedBox(
+                        height: _mediaQuery.size.height * 0.2,
+                        width: _mediaQuery.size.width * 0.9,
+                        child: const Text(
+                          'Collect and give change as you transact with cash! Our mobile app gives you the ability to instantly turn your physical cash to a digital currency',
+                          softWrap: true,
+                          overflow: TextOverflow.visible,
+                          textAlign: TextAlign.center,
+                          style: TextStyle(
+                              fontFamily: 'SpaceGrotesk',
+                              fontWeight: FontWeight.normal,
+                              fontSize: 20.0),
+                        ),
                       ),
                     ],
                   ),
                 ),
                 const SizedBox(
-                  height: 2,
-                ),
-                const Text(
-                  'Easy-to-Use Features',
-                  softWrap: true,
-                  overflow: TextOverflow.visible,
-                  textAlign: TextAlign.center,
-                  style: TextStyle(
-                      fontFamily: 'SpaceGrotesk',
-                      fontSize: 25.0,
-                      fontWeight: FontWeight.bold),
-                ),
-                const SizedBox(
-                  height: 10,
+                  height: 30,
                 ),
                 SizedBox(
+                  height: _mediaQuery.size.height * 0.2,
+                  width: _mediaQuery.size.width * 0.9,
+                  child: const Text(
+                    'Easy-to-Use Features',
+                    softWrap: true,
+                    overflow: TextOverflow.visible,
+                    textAlign: TextAlign.center,
+                    style: TextStyle(
+                        fontFamily: 'SpaceGrotesk',
+                        fontSize: 25.0,
+                        fontWeight: FontWeight.bold),
+                  ),
+                ),
+                const SizedBox(
+                  height: 30,
+                ),
+                SizedBox(
+                  height: _mediaQuery.size.height * 0.3,
                   width: MediaQuery.of(context).size.width * 0.5,
                   child: const Text(
                     'Collect and give change in any fiat or crypto currency of your choice,convert fiat or crypto currencies and make your utility bill payments.',
@@ -142,7 +148,9 @@ class _MobileState extends State<Mobile> {
                       ),
                     ),
                   ),
-                  onPressed: () {},
+                  onPressed: () {
+                    context.goNamed(OnboardScreen.id);
+                  },
                   child: const Text('Get Started',
                       style: TextStyle(
                           fontFamily: 'SpaceGrotesk',
@@ -151,10 +159,10 @@ class _MobileState extends State<Mobile> {
                           fontSize: 25)),
                 ),
                 const SizedBox(
-                  height: 10,
+                  height: 20,
                 ),
-                 Column(
-                  children: const [
+                const Column(
+                  children: [
                     MyWidgetMobile(imagepath: 'images/home.jpeg'),
                     TextWidgetMobile(
                       textpath: 'Homepage',
@@ -323,12 +331,12 @@ class _MobileState extends State<Mobile> {
                 const SizedBox(
                   height: 20.0,
                 ),
-                 Row(
+                const Row(
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   children: [
                     Column(
                       crossAxisAlignment: CrossAxisAlignment.center,
-                      children: const [
+                      children: [
                         Text(
                           'Products',
                           style: TextStyle(
@@ -357,7 +365,7 @@ class _MobileState extends State<Mobile> {
                     ),
                     Column(
                       crossAxisAlignment: CrossAxisAlignment.center,
-                      children: const [
+                      children: [
                         Text(
                           'Company',
                           style: TextStyle(
@@ -386,7 +394,7 @@ class _MobileState extends State<Mobile> {
                     ),
                     Column(
                       crossAxisAlignment: CrossAxisAlignment.center,
-                      children: const [
+                      children: [
                         Text(
                           'Legal',
                           style: TextStyle(
@@ -455,9 +463,13 @@ class _MobileState extends State<Mobile> {
                       height: _mediaQuery.size.height * 0.1,
                       width: _mediaQuery.size.width * 0.9,
                       child: ListTile(
-                        leading: Image.asset('images/copyright.png',scale: 5,height: 20,),
+                        leading: Image.asset(
+                          'images/copyright.png',
+                          scale: 5,
+                          height: 20,
+                        ),
                         minLeadingWidth: 10,
-                        title: Text(
+                        title: const Text(
                           '2023 Changecollect. All rights reserved.',
                           style: TextStyle(
                               fontFamily: 'SpaceGrotesk', fontSize: 12.0),

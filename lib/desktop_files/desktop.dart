@@ -1,7 +1,6 @@
 import 'package:change_collect_web/desktop_files/my_widgets.dart';
 import 'package:change_collect_web/desktop_files/textlist.dart';
 import 'package:change_collect_web/desktop_files/textwidget.dart';
-import 'package:change_collect_web/logs/login_screen.dart';
 import 'package:change_collect_web/logs/onboarding_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:change_collect_web/desktop_files/my_custom_appbar.dart';
@@ -74,8 +73,8 @@ class _DesktopState extends State<Desktop> {
                 SizedBox(
                   height: _mediaQuery.size.height * 0.8,
                   width: _mediaQuery.size.width * 0.4,
-                  child:  Column(
-                    children:const [
+                  child: const Column(
+                    children: [
                       Text(
                         'Changecollect Mobile',
                         softWrap: true,
@@ -102,13 +101,9 @@ class _DesktopState extends State<Desktop> {
                 Container(
                   margin: const EdgeInsets.symmetric(horizontal: 100.0),
                   padding: const EdgeInsets.all(10.0),
-                  decoration: BoxDecoration(
-                    color: Colors.black,
-                    borderRadius: BorderRadius.circular(20.0),
-                  ),
                   height: _mediaQuery.size.height * 0.8,
                   width: _mediaQuery.size.width * 0.24,
-                  child: Image.asset('images/landing_page.png'),
+                  child: Image.asset('images/landing_page.jpg'),
                 ),
               ],
             ),
@@ -175,7 +170,7 @@ class _DesktopState extends State<Desktop> {
                 ),
               ),
               onPressed: () {
-
+                context.goNamed(OnboardScreen.id);
               },
               child: const Text('Get Started',
                   style: TextStyle(
@@ -187,16 +182,16 @@ class _DesktopState extends State<Desktop> {
             const SizedBox(
               height: 40,
             ),
-             Row(
+            const Row(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-              children:const [
+              children: [
                 MyWidget(imagepath: 'images/home.jpeg'),
                 MyWidget(imagepath: 'images/collect.png'),
               ],
             ),
-             Row(
+            const Row(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-              children:const [
+              children: [
                 TextWidget(
                   textpath: 'Homepage',
                   textpath2:
@@ -212,16 +207,16 @@ class _DesktopState extends State<Desktop> {
             const SizedBox(
               height: 30,
             ),
-             Row(
+            const Row(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-              children:const [
+              children: [
                 MyWidget(imagepath: 'images/give.png'),
                 MyWidget(imagepath: 'images/market.png'),
               ],
             ),
-             Row(
+            const Row(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-              children:const [
+              children: [
                 TextWidget(
                   textpath: 'Give change',
                   textpath2:
@@ -364,12 +359,12 @@ class _DesktopState extends State<Desktop> {
             const SizedBox(
               height: 20,
             ),
-             Row(
+            const Row(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [
                 Column(
                   crossAxisAlignment: CrossAxisAlignment.center,
-                  children:const [
+                  children: [
                     Text(
                       'Products',
                       style: TextStyle(
@@ -398,7 +393,7 @@ class _DesktopState extends State<Desktop> {
                 ),
                 Column(
                   crossAxisAlignment: CrossAxisAlignment.center,
-                  children:const [
+                  children: [
                     Text(
                       'Company',
                       style: TextStyle(
@@ -480,7 +475,10 @@ class _DesktopState extends State<Desktop> {
                   width: _mediaQuery.size.width * 0.23,
                   child: ListTile(
                     minLeadingWidth: 10,
-                    leading: Image.asset('images/copyright.png',height: 25,),
+                    leading: Image.asset(
+                      'images/copyright.png',
+                      height: 25,
+                    ),
                     title: const Text(
                       '2023 Changecollect. All rights reserved.',
                       style:
