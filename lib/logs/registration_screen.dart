@@ -6,6 +6,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:go_router/go_router.dart';
 
 import '../constant/dummy_data.dart';
+import '../constant/validation.dart';
 import 'my_button.dart';
 
 class RegistrationScreen extends StatefulWidget {
@@ -22,7 +23,7 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
   final _emailController = TextEditingController();
   final _passwordController = TextEditingController();
   final _cPasswordController = TextEditingController();
-
+  final _formKey=GlobalKey<FormState>();
   @override
   void dispose() {
     // Clean up the controller when the widget is disposed.
@@ -34,40 +35,45 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
 
   // sign user up method
   void signUserUp() async {
+    if(_formKey.currentState!.validate()){
+
+        try {
+          showDialog(
+            context: context,
+            builder: (context) {
+              return const Center(
+                child: CircularProgressIndicator(),
+              );
+            },
+          );
+          await FirebaseAuth.instance.createUserWithEmailAndPassword(email: _emailController.text, password: _passwordController.text);
+          context.pop();
+          context.pop();
+          showErrorMessage(title:"User Exist", message:"Your account has been created Successfully",);
+        } catch (e) {
+          context.pop();
+          String ee = e.toString();
+          if (ee.contains("invalid-email")) {
+            showErrorMessage(title:"invalid Email",message: "Please provide valid email address",);
+          }
+          else if (ee.contains("email-already-in-use")) {
+            showErrorMessage(title:"User Exist", message:"This user already exist try another email.",);
+          } else if (ee.contains("unavailable")) {
+            showErrorMessage(title:
+            "Database Unavailable", message:"The service is currently unavailable",);
+          }
+        }
+
+
+
+    }
     // show loading circle
-    showDialog(
-      context: context,
-      builder: (context) {
-        return const Center(
-          child: CircularProgressIndicator(),
-        );
-      },
-    );
 
     // try creating the user
-    try {
-      // check if password is confirmed
-      if (_passwordController.text == _cPasswordController.text) {
-        await FirebaseAuth.instance.createUserWithEmailAndPassword(
-          email: _emailController.text,
-          password: _passwordController.text,
-        );
-      } else {
-        // show error message, passwords don't match
-        showErrorMessage("Passwords don't match!");
-      }
-      // pop the loading circle
-      context.pop();
-    } on FirebaseAuthException catch (e) {
-      // pop the loading circle
-      context.pop();
-      // show error message
-      showErrorMessage(e.code);
-    }
   }
 
   // error message to user
-  void showErrorMessage(String message) {
+  void showErrorMessage({required String title,required String message}) {
     showDialog(
       context: context,
       builder: (context) {
@@ -170,180 +176,192 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
 
   Widget rightSideScreen() {
     return SingleChildScrollView(
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          // logo
-          Hero(
-            tag: 'logo',
-            child: SizedBox(
-              height: 150.0,
-              child: Image.asset('images/logo1.png'),
+      child: Form(
+        key: _formKey,
+        autovalidateMode: AutovalidateMode.onUserInteraction,
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            // logo
+            Hero(
+              tag: 'logo',
+              child: SizedBox(
+                height: 150.0,
+                child: Image.asset('images/logo1.png'),
+              ),
             ),
-          ),
-          const SizedBox(height: 25),
-          // let's create an account for you
-          Text(
-            'Let\'s create an account for you!',
-            style: TextStyle(
-              fontFamily: 'SpaceGrotesk',
-              color: Colors.grey[700],
-              fontSize: 16,
+            const SizedBox(height: 25),
+            // let's create an account for you
+            Text(
+              'Let\'s create an account for you!',
+              style: TextStyle(
+                fontFamily: 'SpaceGrotesk',
+                color: Colors.grey[700],
+                fontSize: 16,
+              ),
             ),
-          ),
-          const SizedBox(height: 25),
-          // email textfield
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 7.0),
-            child: TextField(
-              style: TextStyle(color: Colors.black),
-              keyboardType: TextInputType.emailAddress,
-              controller: _emailController,
-              decoration: InputDecoration(
-                  enabledBorder: const OutlineInputBorder(
-                    borderSide: BorderSide(color: Colors.grey),
-                    borderRadius: BorderRadius.all(
-                      Radius.circular(8.0),
+            const SizedBox(height: 25),
+            // email textfield
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 7.0),
+              child: TextFormField(
+                validator: FieldValidator.validateEmail,
+                style: TextStyle(color: Colors.black),
+                keyboardType: TextInputType.emailAddress,
+                controller: _emailController,
+                decoration: InputDecoration(
+                    enabledBorder: const OutlineInputBorder(
+                      borderSide: BorderSide(color: Colors.grey),
+                      borderRadius: BorderRadius.all(
+                        Radius.circular(8.0),
+                      ),
                     ),
-                  ),
-                  focusedBorder: OutlineInputBorder(
-                    borderSide: BorderSide(color: Colors.grey.shade400),
-                    borderRadius: BorderRadius.all(
-                      Radius.circular(8.0),
+                    focusedBorder: OutlineInputBorder(
+                      borderSide: BorderSide(color: Colors.grey.shade400),
+                      borderRadius: BorderRadius.all(
+                        Radius.circular(8.0),
+                      ),
                     ),
-                  ),
-                  fillColor: Colors.grey.shade200,
-                  filled: true,
-                  hintText: 'Enter Your Email',
-                  hintStyle: TextStyle(
-                      fontFamily: 'SpaceGrotesk', color: Colors.grey[500])),
-              obscureText: false,
+                    fillColor: Colors.grey.shade200,
+                    filled: true,
+                    hintText: 'Enter Your Email',
+                    hintStyle: TextStyle(
+                        fontFamily: 'SpaceGrotesk', color: Colors.grey[500])),
+                obscureText: false,
+              ),
             ),
-          ),
-          const SizedBox(height: 10),
-          // password textfield
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 7.0),
-            child: TextField(
-              style: TextStyle(color: Colors.black),
-              controller: _passwordController,
-              decoration: InputDecoration(
-                  enabledBorder: const OutlineInputBorder(
-                    borderSide: BorderSide(color: Colors.grey),
-                    borderRadius: BorderRadius.all(
-                      Radius.circular(8.0),
+            const SizedBox(height: 10),
+            // password textfield
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 7.0),
+              child: TextFormField(
+                validator: FieldValidator.validatePasswordSignup,
+                style: TextStyle(color: Colors.black),
+                controller: _passwordController,
+                decoration: InputDecoration(
+                    enabledBorder: const OutlineInputBorder(
+                      borderSide: BorderSide(color: Colors.grey),
+                      borderRadius: BorderRadius.all(
+                        Radius.circular(8.0),
+                      ),
                     ),
-                  ),
-                  focusedBorder: OutlineInputBorder(
-                    borderSide: BorderSide(color: Colors.grey.shade400),
-                    borderRadius: BorderRadius.all(
-                      Radius.circular(8.0),
+                    focusedBorder: OutlineInputBorder(
+                      borderSide: BorderSide(color: Colors.grey.shade400),
+                      borderRadius: BorderRadius.all(
+                        Radius.circular(8.0),
+                      ),
                     ),
-                  ),
-                  fillColor: Colors.grey.shade200,
-                  filled: true,
-                  hintText: 'Enter Your Password',
-                  hintStyle: TextStyle(
-                      fontFamily: 'SpaceGrotesk', color: Colors.grey[500])),
-              obscureText: true,
+                    fillColor: Colors.grey.shade200,
+                    filled: true,
+                    hintText: 'Enter Your Password',
+                    hintStyle: TextStyle(
+                        fontFamily: 'SpaceGrotesk', color: Colors.grey[500])),
+                obscureText: true,
+              ),
             ),
-          ),
-          const SizedBox(height: 10),
-          // confirm password textfield
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 7.0),
-            child: TextField(
-              style: TextStyle(color: Colors.black),
-              controller: _cPasswordController,
-              decoration: InputDecoration(
-                  enabledBorder: const OutlineInputBorder(
-                    borderSide: BorderSide(color: Colors.grey),
-                    borderRadius: BorderRadius.all(
-                      Radius.circular(8.0),
+            const SizedBox(height: 10),
+            // confirm password textfield
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 7.0),
+              child: TextFormField(
+                validator: (v){
+                  if(_cPasswordController.text!=_passwordController.text){
+                    return "password doesn't match";
+                  }
+                  return null;
+                },
+                style: TextStyle(color: Colors.black),
+                controller: _cPasswordController,
+                decoration: InputDecoration(
+                    enabledBorder: const OutlineInputBorder(
+                      borderSide: BorderSide(color: Colors.grey),
+                      borderRadius: BorderRadius.all(
+                        Radius.circular(8.0),
+                      ),
                     ),
-                  ),
-                  focusedBorder: OutlineInputBorder(
-                    borderSide: BorderSide(color: Colors.grey.shade400),
-                    borderRadius: BorderRadius.all(
-                      Radius.circular(8.0),
+                    focusedBorder: OutlineInputBorder(
+                      borderSide: BorderSide(color: Colors.grey.shade400),
+                      borderRadius: BorderRadius.all(
+                        Radius.circular(8.0),
+                      ),
                     ),
-                  ),
-                  fillColor: Colors.grey.shade200,
-                  filled: true,
-                  hintText: 'Confirm Password',
-                  hintStyle: TextStyle(
-                      fontFamily: 'SpaceGrotesk', color: Colors.grey[500])),
-              obscureText: true,
+                    fillColor: Colors.grey.shade200,
+                    filled: true,
+                    hintText: 'Confirm Password',
+                    hintStyle: TextStyle(
+                        fontFamily: 'SpaceGrotesk', color: Colors.grey[500])),
+                obscureText: true,
+              ),
             ),
-          ),
 
-          const SizedBox(height: 25),
+            const SizedBox(height: 25),
 
-          // sign in button
-          MyButton(
-            text: "Sign Up",
-            onTap: signUserUp,
-          ),
+            // sign in button
+            MyButton(
+              text: "Sign Up",
+              onTap: signUserUp,
+            ),
 
-          const SizedBox(height: 30),
+            const SizedBox(height: 30),
 
-          // or continue with
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 25.0),
-            child: Row(
+            // or continue with
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 25.0),
+              child: Row(
+                children: [
+                  Expanded(
+                    child: Divider(
+                      thickness: 0.5,
+                      color: Colors.grey[400],
+                    ),
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 10.0),
+                    child: Text(
+                      'If You',
+                      style: TextStyle(
+                          fontFamily: 'SpaceGrotesk', color: Colors.grey[700]),
+                    ),
+                  ),
+                  Expanded(
+                    child: Divider(
+                      thickness: 0.5,
+                      color: Colors.grey[400],
+                    ),
+                  ),
+                ],
+              ),
+            ),
+
+            const SizedBox(height: 10),
+
+            const SizedBox(height: 20),
+
+            // not a member? register now
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                Expanded(
-                  child: Divider(
-                    thickness: 0.5,
-                    color: Colors.grey[400],
-                  ),
+                Text(
+                  'Already have an account?',
+                  style: TextStyle(
+                      fontFamily: 'SpaceGrotesk', color: Colors.grey[700]),
                 ),
-                Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 10.0),
-                  child: Text(
-                    'If You',
+                const SizedBox(width: 4),
+                GestureDetector(
+                  onTap: widget.onTap,
+                  child: const Text(
+                    'Login now',
                     style: TextStyle(
-                        fontFamily: 'SpaceGrotesk', color: Colors.grey[700]),
-                  ),
-                ),
-                Expanded(
-                  child: Divider(
-                    thickness: 0.5,
-                    color: Colors.grey[400],
+                      fontFamily: 'SpaceGrotesk',
+                      color: Color(0xff3964ff),
+                      fontWeight: FontWeight.bold,
+                    ),
                   ),
                 ),
               ],
-            ),
-          ),
-
-          const SizedBox(height: 10),
-
-          const SizedBox(height: 20),
-
-          // not a member? register now
-          Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Text(
-                'Already have an account?',
-                style: TextStyle(
-                    fontFamily: 'SpaceGrotesk', color: Colors.grey[700]),
-              ),
-              const SizedBox(width: 4),
-              GestureDetector(
-                onTap: widget.onTap,
-                child: const Text(
-                  'Login now',
-                  style: TextStyle(
-                    fontFamily: 'SpaceGrotesk',
-                    color: Color(0xff3964ff),
-                    fontWeight: FontWeight.bold,
-                  ),
-                ),
-              ),
-            ],
-          )
-        ],
+            )
+          ],
+        ),
       ),
     );
   }

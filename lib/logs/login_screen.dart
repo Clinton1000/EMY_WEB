@@ -1,10 +1,12 @@
 // ignore_for_file: prefer_const_constructors
 
 import 'package:change_collect_web/constant/dummy_data.dart';
+import 'package:change_collect_web/constant/validation.dart';
 import 'package:change_collect_web/routes/responsive_widget.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'package:responsive_framework/max_width_box.dart';
 
 import 'forgot_password.dart';
 import 'my_button.dart';
@@ -22,7 +24,7 @@ class _LoginScreenState extends State<LoginScreen> {
   // text editing controllers
   final _emailController = TextEditingController();
   final _passwordController = TextEditingController();
-
+  final _formKey=GlobalKey<FormState>();
   @override
   void dispose() {
     // Clean up the controller when the widget is disposed.
@@ -33,39 +35,79 @@ class _LoginScreenState extends State<LoginScreen> {
 
   // sign user in method
   void signUserIn() async {
-    //show loading circle
-    showDialog(
-      context: context,
-      builder: (context) {
-        return const Center(
-          child: CircularProgressIndicator(),
+    if(_formKey.currentState!.validate()){
+      try {
+        showDialog(
+          context: context,
+          builder: (context) {
+            return const Center(
+              child: CircularProgressIndicator(),
+            );
+          },
         );
-      },
-    );
+        UserCredential user =
+        await FirebaseAuth.instance.signInWithEmailAndPassword(
+          email: _emailController.text,
+          password: _passwordController.text,
+        );
+        if (user.user?.uid != null) {
+          context.pop();
+          Future.delayed(Duration(milliseconds: 100),(){
+            showDialog(
+              context: context,
+              builder: (context) {
+                return MaxWidthBox(
+                  maxWidth: 600,
+                  child: ClipRRect(
+                    borderRadius: BorderRadius.circular(30),
+                    child: AlertDialog(
+                      backgroundColor: Colors.black,
 
-    // try sign in
-    try {
-      UserCredential user =
-          await FirebaseAuth.instance.signInWithEmailAndPassword(
-        email: _emailController.text,
-        password: _passwordController.text,
-      );
-      if (user.user?.uid != null) {
+                      icon: Image.asset( 'images/think.png',scale: 2,),
+                      title: Center(
+                        child: Column(
+                          children: [
+                            Text(
+                              "Congratulations",
+                              style: const TextStyle(
+                                  fontFamily: 'SpaceGrotesk', color: Colors.white),
+                            ),
+                            Text(
+                              "Thank you for signing up, we will notify you once the app is launched ",
+                              textAlign: TextAlign.center,
+                              style: const TextStyle(
+                                  fontFamily: 'SpaceGrotesk', color: Colors.white),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ),
+                  ),
+                );
+              },
+            );
+          });
+
+        }
+        //pop the loading circle
+      } on FirebaseAuthException catch (e) {
+        debugPrint(e.toString());
+        // pop the loading circle
         context.pop();
-      }
-      //pop the loading circle
-    } on FirebaseAuthException catch (e) {
-      debugPrint(e.toString());
-      // pop the loading circle
-      context.pop();
-      // show error message
-      //showErrorMessage(e.code);
-      if (e.code == 'user-not-found') {
-        wrongEmailMessage();
-      } else if (e.code == 'wrong-password') {
-        wrongPasswordMessage();
+        // show error message
+        //showErrorMessage(e.code);
+        if (e.code == 'user-not-found') {
+          wrongEmailMessage();
+        } else if (e.code == 'wrong-password') {
+          wrongPasswordMessage();
+        }
       }
     }
+    //show loading circle
+
+
+    // try sign in
+
   }
 
   // error message to user
@@ -194,193 +236,199 @@ class _LoginScreenState extends State<LoginScreen> {
                             )
                           ]),
                       child: SingleChildScrollView(
-                        child: Column(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            // logo
-                            Hero(
-                              tag: 'logo',
-                              child: SizedBox(
-                                height: 150.0,
-                                child: Image.asset('images/logo1.png'),
-                              ),
-                            ),
-
-                            const SizedBox(height: 25.0),
-                            Text(
-                              "welcome back you've been missed!",
-                              style: TextStyle(
-                                fontFamily: 'SpaceGrotesk',
-                                fontSize: 26,
-                                fontWeight: FontWeight.w700,
-                                color: Colors.black,
-                              ),
-                            ),
-                            // welcome back, you've been missed!
-
-                            const SizedBox(height: 25),
-
-                            // email textfield
-                            Padding(
-                              padding:
-                                  const EdgeInsets.symmetric(horizontal: 7.0),
-                              child: TextField(
-                                style: TextStyle(color: Colors.black),
-                                keyboardType: TextInputType.emailAddress,
-                                controller: _emailController,
-                                decoration: InputDecoration(
-                                  enabledBorder: const OutlineInputBorder(
-                                      borderSide:
-                                          BorderSide(color: Colors.grey),
-                                      borderRadius: BorderRadius.all(
-                                          Radius.circular(8.0))),
-                                  focusedBorder: OutlineInputBorder(
-                                    borderSide:
-                                        BorderSide(color: Colors.grey.shade400),
-                                    borderRadius: BorderRadius.all(
-                                      Radius.circular(8.0),
-                                    ),
-                                  ),
-                                  fillColor: Colors.grey.shade200,
-                                  filled: true,
-                                  hintText: 'Enter Your Email',
-                                  hintStyle: TextStyle(
-                                      fontFamily: 'SpaceGrotesk',
-                                      color: Colors.grey[500]),
+                        child: Form(
+                          key: _formKey,
+                          autovalidateMode: AutovalidateMode.onUserInteraction,
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              // logo
+                              Hero(
+                                tag: 'logo',
+                                child: SizedBox(
+                                  height: 150.0,
+                                  child: Image.asset('images/logo1.png'),
                                 ),
-                                obscureText: false,
                               ),
-                            ),
 
-                            const SizedBox(height: 10),
-
-                            // password textfield
-                            Padding(
-                              padding:
-                                  const EdgeInsets.symmetric(horizontal: 7.0),
-                              child: TextField(
+                              const SizedBox(height: 25.0),
+                              Text(
+                                "welcome back you've been missed!",
                                 style: TextStyle(
-                                    fontFamily: 'SpaceGrotesk',
-                                    color: Colors.black),
-                                controller: _passwordController,
-                                decoration: InputDecoration(
+                                  fontFamily: 'SpaceGrotesk',
+                                  fontSize: 26,
+                                  fontWeight: FontWeight.w700,
+                                  color: Colors.black,
+                                ),
+                              ),
+                              // welcome back, you've been missed!
+
+                              const SizedBox(height: 25),
+
+                              // email textfield
+                              Padding(
+                                padding:
+                                    const EdgeInsets.symmetric(horizontal: 7.0),
+                                child: TextFormField(
+                                  style: TextStyle(color: Colors.black),
+                                  keyboardType: TextInputType.emailAddress,
+                                  controller: _emailController,
+                                  validator: FieldValidator.validateEmail,
+                                  decoration: InputDecoration(
                                     enabledBorder: const OutlineInputBorder(
                                         borderSide:
                                             BorderSide(color: Colors.grey),
                                         borderRadius: BorderRadius.all(
                                             Radius.circular(8.0))),
                                     focusedBorder: OutlineInputBorder(
-                                        borderSide: BorderSide(
-                                            color: Colors.grey.shade400),
-                                        borderRadius: BorderRadius.all(
-                                            Radius.circular(8.0))),
+                                      borderSide:
+                                          BorderSide(color: Colors.grey.shade400),
+                                      borderRadius: BorderRadius.all(
+                                        Radius.circular(8.0),
+                                      ),
+                                    ),
                                     fillColor: Colors.grey.shade200,
                                     filled: true,
-                                    hintText: 'Enter Your Password',
+                                    hintText: 'Enter Your Email',
                                     hintStyle: TextStyle(
                                         fontFamily: 'SpaceGrotesk',
-                                        color: Colors.grey[500])),
-                                obscureText: true,
+                                        color: Colors.grey[500]),
+                                  ),
+                                  obscureText: false,
+                                ),
                               ),
-                            ),
 
-                            const SizedBox(height: 10),
+                              const SizedBox(height: 10),
 
-                            // forgot password?
-                            Padding(
-                              padding:
-                                  const EdgeInsets.symmetric(horizontal: 25.0),
-                              child: GestureDetector(
-                                onTap: () {
-                                  Navigator.pushNamed(
-                                      context, ForgotPassword.id);
-                                },
-                                child: Row(
-                                  mainAxisAlignment: MainAxisAlignment.end,
-                                  children: [
-                                    Text(
-                                      'Forgot Password?',
-                                      style: TextStyle(
+                              // password textfield
+                              Padding(
+                                padding:
+                                    const EdgeInsets.symmetric(horizontal: 7.0),
+                                child: TextFormField(
+                                  validator: FieldValidator.validatePasswordSignup,
+                                  style: TextStyle(
+                                      fontFamily: 'SpaceGrotesk',
+                                      color: Colors.black),
+                                  controller: _passwordController,
+                                  decoration: InputDecoration(
+                                      enabledBorder: const OutlineInputBorder(
+                                          borderSide:
+                                              BorderSide(color: Colors.grey),
+                                          borderRadius: BorderRadius.all(
+                                              Radius.circular(8.0))),
+                                      focusedBorder: OutlineInputBorder(
+                                          borderSide: BorderSide(
+                                              color: Colors.grey.shade400),
+                                          borderRadius: BorderRadius.all(
+                                              Radius.circular(8.0))),
+                                      fillColor: Colors.grey.shade200,
+                                      filled: true,
+                                      hintText: 'Enter Your Password',
+                                      hintStyle: TextStyle(
                                           fontFamily: 'SpaceGrotesk',
-                                          color: Colors.grey[600]),
+                                          color: Colors.grey[500])),
+                                  obscureText: true,
+                                ),
+                              ),
+
+                              const SizedBox(height: 10),
+
+                              // forgot password?
+                              Padding(
+                                padding:
+                                    const EdgeInsets.symmetric(horizontal: 25.0),
+                                child: GestureDetector(
+                                  onTap: () {
+                                    Navigator.pushNamed(
+                                        context, ForgotPassword.id);
+                                  },
+                                  child: Row(
+                                    mainAxisAlignment: MainAxisAlignment.end,
+                                    children: [
+                                      Text(
+                                        'Forgot Password?',
+                                        style: TextStyle(
+                                            fontFamily: 'SpaceGrotesk',
+                                            color: Colors.grey[600]),
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                              ),
+
+                              const SizedBox(height: 25),
+
+                              // sign in button
+                              MyButton(
+                                text: "Sign In",
+                                onTap: signUserIn,
+                              ),
+
+                              const SizedBox(height: 50),
+
+                              // or continue with
+                              Padding(
+                                padding:
+                                    const EdgeInsets.symmetric(horizontal: 25.0),
+                                child: Row(
+                                  children: [
+                                    Expanded(
+                                      child: Divider(
+                                        thickness: 0.5,
+                                        color: Colors.grey[400],
+                                      ),
+                                    ),
+                                    Padding(
+                                      padding: const EdgeInsets.symmetric(
+                                          horizontal: 10.0),
+                                      child: Text(
+                                        'Or',
+                                        style: TextStyle(color: Colors.grey[700]),
+                                      ),
+                                    ),
+                                    Expanded(
+                                      child: Divider(
+                                        thickness: 0.5,
+                                        color: Colors.grey[400],
+                                      ),
                                     ),
                                   ],
                                 ),
                               ),
-                            ),
+//
 
-                            const SizedBox(height: 25),
+                              const SizedBox(height: 20),
 
-                            // sign in button
-                            MyButton(
-                              text: "Sign In",
-                              onTap: signUserIn,
-                            ),
+                              // google + apple sign in buttons is supposed to be here
 
-                            const SizedBox(height: 50),
+                              const SizedBox(height: 7),
 
-                            // or continue with
-                            Padding(
-                              padding:
-                                  const EdgeInsets.symmetric(horizontal: 25.0),
-                              child: Row(
+                              // not a member? register now
+                              Row(
+                                mainAxisAlignment: MainAxisAlignment.center,
                                 children: [
-                                  Expanded(
-                                    child: Divider(
-                                      thickness: 0.5,
-                                      color: Colors.grey[400],
-                                    ),
+                                  Text(
+                                    'Not a member?',
+                                    style: TextStyle(
+                                        fontFamily: 'SpaceGrotesk',
+                                        color: Colors.grey[700]),
                                   ),
-                                  Padding(
-                                    padding: const EdgeInsets.symmetric(
-                                        horizontal: 10.0),
-                                    child: Text(
-                                      'Or',
-                                      style: TextStyle(color: Colors.grey[700]),
-                                    ),
-                                  ),
-                                  Expanded(
-                                    child: Divider(
-                                      thickness: 0.5,
-                                      color: Colors.grey[400],
+                                  const SizedBox(width: 4),
+                                  GestureDetector(
+                                    onTap: widget.onTap,
+                                    child: const Text(
+                                      'Register now',
+                                      style: TextStyle(
+                                        fontFamily: 'SpaceGrotesk',
+                                        color: Color(0xff3964ff),
+                                        fontWeight: FontWeight.bold,
+                                      ),
                                     ),
                                   ),
                                 ],
-                              ),
-                            ),
-//
-
-                            const SizedBox(height: 20),
-
-                            // google + apple sign in buttons is supposed to be here
-
-                            const SizedBox(height: 7),
-
-                            // not a member? register now
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: [
-                                Text(
-                                  'Not a member?',
-                                  style: TextStyle(
-                                      fontFamily: 'SpaceGrotesk',
-                                      color: Colors.grey[700]),
-                                ),
-                                const SizedBox(width: 4),
-                                GestureDetector(
-                                  onTap: widget.onTap,
-                                  child: const Text(
-                                    'Register now',
-                                    style: TextStyle(
-                                      fontFamily: 'SpaceGrotesk',
-                                      color: Color(0xff3964ff),
-                                      fontWeight: FontWeight.bold,
-                                    ),
-                                  ),
-                                ),
-                              ],
-                            )
-                          ],
+                              )
+                            ],
+                          ),
                         ),
                       ),
                     ),
@@ -401,186 +449,192 @@ class _LoginScreenState extends State<LoginScreen> {
                     )
                   ]),
               child: SingleChildScrollView(
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    // logo
-                    Hero(
-                      tag: 'logo',
-                      child: SizedBox(
-                        height: 150.0,
-                        child: Image.asset('images/logo1.png'),
-                      ),
-                    ),
+                child: Form(
+                  key: _formKey,autovalidateMode: AutovalidateMode.onUserInteraction,
 
-                    const SizedBox(height: 25.0),
-
-                    // welcome back, you've been missed!
-                    Text(
-                      "welcome back you've been missed!",
-                      style: TextStyle(
-                        fontFamily: 'SpaceGrotesk',
-                        fontSize: 26,
-                        fontWeight: FontWeight.w700,
-                        color: Colors.black,
-                      ),
-                    ),
-
-                    const SizedBox(height: 25),
-
-                    // email textfield
-                    Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 7.0),
-                      child: TextField(
-                        style: TextStyle(color: Colors.black),
-                        keyboardType: TextInputType.emailAddress,
-                        controller: _emailController,
-                        decoration: InputDecoration(
-                          enabledBorder: const OutlineInputBorder(
-                              borderSide: BorderSide(color: Colors.grey),
-                              borderRadius:
-                                  BorderRadius.all(Radius.circular(8.0))),
-                          focusedBorder: OutlineInputBorder(
-                            borderSide: BorderSide(color: Colors.grey.shade400),
-                            borderRadius: BorderRadius.all(
-                              Radius.circular(8.0),
-                            ),
-                          ),
-                          fillColor: Colors.grey.shade200,
-                          filled: true,
-                          hintText: 'Enter Your Email',
-                          hintStyle: TextStyle(
-                              fontFamily: 'SpaceGrotesk',
-                              color: Colors.grey[500]),
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      // logo
+                      Hero(
+                        tag: 'logo',
+                        child: SizedBox(
+                          height: 150.0,
+                          child: Image.asset('images/logo1.png'),
                         ),
-                        obscureText: false,
                       ),
-                    ),
 
-                    const SizedBox(height: 10),
+                      const SizedBox(height: 25.0),
 
-                    // password textfield
-                    Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 7.0),
-                      child: TextField(
-                        style: TextStyle(color: Colors.black),
-                        controller: _passwordController,
-                        decoration: InputDecoration(
+                      // welcome back, you've been missed!
+                      Text(
+                        "welcome back you've been missed!",
+                        style: TextStyle(
+                          fontFamily: 'SpaceGrotesk',
+                          fontSize: 26,
+                          fontWeight: FontWeight.w700,
+                          color: Colors.black,
+                        ),
+                      ),
+
+                      const SizedBox(height: 25),
+
+                      // email textfield
+                      Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 7.0),
+                        child: TextFormField(
+                          style: TextStyle(color: Colors.black),
+                          validator: FieldValidator.validateEmail,
+                          keyboardType: TextInputType.emailAddress,
+                          controller: _emailController,
+                          decoration: InputDecoration(
                             enabledBorder: const OutlineInputBorder(
                                 borderSide: BorderSide(color: Colors.grey),
                                 borderRadius:
                                     BorderRadius.all(Radius.circular(8.0))),
                             focusedBorder: OutlineInputBorder(
-                                borderSide:
-                                    BorderSide(color: Colors.grey.shade400),
-                                borderRadius:
-                                    BorderRadius.all(Radius.circular(8.0))),
+                              borderSide: BorderSide(color: Colors.grey.shade400),
+                              borderRadius: BorderRadius.all(
+                                Radius.circular(8.0),
+                              ),
+                            ),
                             fillColor: Colors.grey.shade200,
                             filled: true,
-                            hintText: 'Enter Your Password',
+                            hintText: 'Enter Your Email',
                             hintStyle: TextStyle(
                                 fontFamily: 'SpaceGrotesk',
-                                color: Colors.grey[500])),
-                        obscureText: true,
+                                color: Colors.grey[500]),
+                          ),
+                          obscureText: false,
+                        ),
                       ),
-                    ),
 
-                    const SizedBox(height: 10),
+                      const SizedBox(height: 10),
 
-                    // forgot password?
-                    Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 25.0),
-                      child: GestureDetector(
-                        onTap: () {
-                          Navigator.pushNamed(context, ForgotPassword.id);
-                        },
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.end,
-                          children: [
-                            Text(
-                              'Forgot Password?',
-                              style: TextStyle(
+                      // password textfield
+                      Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 7.0),
+                        child: TextFormField(
+                          style: TextStyle(color: Colors.black),
+                          controller: _passwordController,
+                          validator: FieldValidator.validatePasswordSignup,
+                          decoration: InputDecoration(
+                              enabledBorder: const OutlineInputBorder(
+                                  borderSide: BorderSide(color: Colors.grey),
+                                  borderRadius:
+                                      BorderRadius.all(Radius.circular(8.0))),
+                              focusedBorder: OutlineInputBorder(
+                                  borderSide:
+                                      BorderSide(color: Colors.grey.shade400),
+                                  borderRadius:
+                                      BorderRadius.all(Radius.circular(8.0))),
+                              fillColor: Colors.grey.shade200,
+                              filled: true,
+                              hintText: 'Enter Your Password',
+                              hintStyle: TextStyle(
                                   fontFamily: 'SpaceGrotesk',
-                                  color: Colors.grey[600]),
+                                  color: Colors.grey[500])),
+                          obscureText: true,
+                        ),
+                      ),
+
+                      const SizedBox(height: 10),
+
+                      // forgot password?
+                      Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 25.0),
+                        child: GestureDetector(
+                          onTap: () {
+                            Navigator.pushNamed(context, ForgotPassword.id);
+                          },
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.end,
+                            children: [
+                              Text(
+                                'Forgot Password?',
+                                style: TextStyle(
+                                    fontFamily: 'SpaceGrotesk',
+                                    color: Colors.grey[600]),
+                              ),
+                            ],
+                          ),
+                        ),
+                      ),
+
+                      const SizedBox(height: 25),
+
+                      // sign in button
+                      MyButton(
+                        text: "Sign In",
+                        onTap: signUserIn,
+                      ),
+
+                      const SizedBox(height: 50),
+
+                      // or continue with
+                      Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 25.0),
+                        child: Row(
+                          children: [
+                            Expanded(
+                              child: Divider(
+                                thickness: 0.5,
+                                color: Colors.grey[400],
+                              ),
+                            ),
+                            Padding(
+                              padding:
+                                  const EdgeInsets.symmetric(horizontal: 10.0),
+                              child: Text(
+                                'Or',
+                                style: TextStyle(
+                                    fontFamily: 'SpaceGrotesk',
+                                    color: Colors.grey[700]),
+                              ),
+                            ),
+                            Expanded(
+                              child: Divider(
+                                thickness: 0.5,
+                                color: Colors.grey[400],
+                              ),
                             ),
                           ],
                         ),
                       ),
-                    ),
+//
 
-                    const SizedBox(height: 25),
+                      const SizedBox(height: 20),
 
-                    // sign in button
-                    MyButton(
-                      text: "Sign In",
-                      onTap: signUserIn,
-                    ),
+                      // google + apple sign in buttons is supposed to be here
 
-                    const SizedBox(height: 50),
+                      const SizedBox(height: 7),
 
-                    // or continue with
-                    Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 25.0),
-                      child: Row(
+                      // not a member? register now
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
                         children: [
-                          Expanded(
-                            child: Divider(
-                              thickness: 0.5,
-                              color: Colors.grey[400],
-                            ),
+                          Text(
+                            'Not a member?',
+                            style: TextStyle(
+                                fontFamily: 'SpaceGrotesk',
+                                color: Colors.grey[700]),
                           ),
-                          Padding(
-                            padding:
-                                const EdgeInsets.symmetric(horizontal: 10.0),
-                            child: Text(
-                              'Or',
+                          const SizedBox(width: 4),
+                          GestureDetector(
+                            onTap: widget.onTap,
+                            child: const Text(
+                              'Register now',
                               style: TextStyle(
-                                  fontFamily: 'SpaceGrotesk',
-                                  color: Colors.grey[700]),
-                            ),
-                          ),
-                          Expanded(
-                            child: Divider(
-                              thickness: 0.5,
-                              color: Colors.grey[400],
+                                fontFamily: 'SpaceGrotesk',
+                                color: Color(0xff3964ff),
+                                fontWeight: FontWeight.bold,
+                              ),
                             ),
                           ),
                         ],
-                      ),
-                    ),
-//
-
-                    const SizedBox(height: 20),
-
-                    // google + apple sign in buttons is supposed to be here
-
-                    const SizedBox(height: 7),
-
-                    // not a member? register now
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Text(
-                          'Not a member?',
-                          style: TextStyle(
-                              fontFamily: 'SpaceGrotesk',
-                              color: Colors.grey[700]),
-                        ),
-                        const SizedBox(width: 4),
-                        GestureDetector(
-                          onTap: widget.onTap,
-                          child: const Text(
-                            'Register now',
-                            style: TextStyle(
-                              fontFamily: 'SpaceGrotesk',
-                              color: Color(0xff3964ff),
-                              fontWeight: FontWeight.bold,
-                            ),
-                          ),
-                        ),
-                      ],
-                    )
-                  ],
+                      )
+                    ],
+                  ),
                 ),
               ),
             ),
@@ -597,185 +651,191 @@ class _LoginScreenState extends State<LoginScreen> {
                     )
                   ]),
               child: SingleChildScrollView(
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    // logo
-                    Hero(
-                      tag: 'logo',
-                      child: SizedBox(
-                        height: 150.0,
-                        child: Image.asset('images/logo1.png'),
-                      ),
-                    ),
+                child: Form(
+                  key: _formKey,
 
-                    const SizedBox(height: 25.0),
-
-                    // welcome back, you've been missed!
-                    Text(
-                      "welcome back you've been missed!",
-                      style: TextStyle(
-                        fontFamily: 'SpaceGrotesk',
-                        color: Colors.grey[700],
-                        fontSize: 16,
-                      ),
-                    ),
-
-                    const SizedBox(height: 25),
-
-                    // email textfield
-                    Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 7.0),
-                      child: TextField(
-                        style: TextStyle(color: Colors.black),
-                        keyboardType: TextInputType.emailAddress,
-                        controller: _emailController,
-                        decoration: InputDecoration(
-                          enabledBorder: const OutlineInputBorder(
-                              borderSide: BorderSide(color: Colors.grey),
-                              borderRadius:
-                                  BorderRadius.all(Radius.circular(8.0))),
-                          focusedBorder: OutlineInputBorder(
-                            borderSide: BorderSide(color: Colors.grey.shade400),
-                            borderRadius: BorderRadius.all(
-                              Radius.circular(8.0),
-                            ),
-                          ),
-                          fillColor: Colors.grey.shade200,
-                          filled: true,
-                          hintText: 'Enter Your Email',
-                          hintStyle: TextStyle(
-                              fontFamily: 'SpaceGrotesk',
-                              color: Colors.grey[500]),
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      // logo
+                      Hero(
+                        tag: 'logo',
+                        child: SizedBox(
+                          height: 150.0,
+                          child: Image.asset('images/logo1.png'),
                         ),
-                        obscureText: false,
                       ),
-                    ),
 
-                    const SizedBox(height: 10),
+                      const SizedBox(height: 25.0),
 
-                    // password textfield
-                    Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 7.0),
-                      child: TextField(
-                        style: TextStyle(color: Colors.black),
-                        controller: _passwordController,
-                        decoration: InputDecoration(
+                      // welcome back, you've been missed!
+                      Text(
+                        "welcome back you've been missed!",
+                        style: TextStyle(
+                          fontFamily: 'SpaceGrotesk',
+                          color: Colors.grey[700],
+                          fontSize: 16,
+                        ),
+                      ),
+
+                      const SizedBox(height: 25),
+
+                      // email textfield
+                      Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 7.0),
+                        child: TextFormField(
+                          style: TextStyle(color: Colors.black),
+                          keyboardType: TextInputType.emailAddress,
+                          controller: _emailController,
+                          validator: FieldValidator.validateEmail,
+                          decoration: InputDecoration(
                             enabledBorder: const OutlineInputBorder(
                                 borderSide: BorderSide(color: Colors.grey),
                                 borderRadius:
                                     BorderRadius.all(Radius.circular(8.0))),
                             focusedBorder: OutlineInputBorder(
-                                borderSide:
-                                    BorderSide(color: Colors.grey.shade400),
-                                borderRadius:
-                                    BorderRadius.all(Radius.circular(8.0))),
+                              borderSide: BorderSide(color: Colors.grey.shade400),
+                              borderRadius: BorderRadius.all(
+                                Radius.circular(8.0),
+                              ),
+                            ),
                             fillColor: Colors.grey.shade200,
                             filled: true,
-                            hintText: 'Enter Your Password',
+                            hintText: 'Enter Your Email',
                             hintStyle: TextStyle(
                                 fontFamily: 'SpaceGrotesk',
-                                color: Colors.grey[500])),
-                        obscureText: true,
+                                color: Colors.grey[500]),
+                          ),
+                          obscureText: false,
+                        ),
                       ),
-                    ),
 
-                    const SizedBox(height: 10),
+                      const SizedBox(height: 10),
 
-                    // forgot password?
-                    Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 25.0),
-                      child: GestureDetector(
-                        onTap: () {
-                          Navigator.pushNamed(context, ForgotPassword.id);
-                        },
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.end,
-                          children: [
-                            Text(
-                              'Forgot Password?',
-                              style: TextStyle(
+                      // password textfield
+                      Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 7.0),
+                        child: TextFormField(
+                          validator: FieldValidator.validatePasswordSignup,
+                          style: TextStyle(color: Colors.black),
+                          controller: _passwordController,
+                          decoration: InputDecoration(
+                              enabledBorder: const OutlineInputBorder(
+                                  borderSide: BorderSide(color: Colors.grey),
+                                  borderRadius:
+                                      BorderRadius.all(Radius.circular(8.0))),
+                              focusedBorder: OutlineInputBorder(
+                                  borderSide:
+                                      BorderSide(color: Colors.grey.shade400),
+                                  borderRadius:
+                                      BorderRadius.all(Radius.circular(8.0))),
+                              fillColor: Colors.grey.shade200,
+                              filled: true,
+                              hintText: 'Enter Your Password',
+                              hintStyle: TextStyle(
                                   fontFamily: 'SpaceGrotesk',
-                                  color: Colors.grey[600]),
+                                  color: Colors.grey[500])),
+                          obscureText: true,
+                        ),
+                      ),
+
+                      const SizedBox(height: 10),
+
+                      // forgot password?
+                      Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 25.0),
+                        child: GestureDetector(
+                          onTap: () {
+                            Navigator.pushNamed(context, ForgotPassword.id);
+                          },
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.end,
+                            children: [
+                              Text(
+                                'Forgot Password?',
+                                style: TextStyle(
+                                    fontFamily: 'SpaceGrotesk',
+                                    color: Colors.grey[600]),
+                              ),
+                            ],
+                          ),
+                        ),
+                      ),
+
+                      const SizedBox(height: 25),
+
+                      // sign in button
+                      MyButton(
+                        text: "Sign In",
+                        onTap: signUserIn,
+                      ),
+
+                      const SizedBox(height: 50),
+
+                      // or continue with
+                      Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 25.0),
+                        child: Row(
+                          children: [
+                            Expanded(
+                              child: Divider(
+                                thickness: 0.5,
+                                color: Colors.grey[400],
+                              ),
+                            ),
+                            Padding(
+                              padding:
+                                  const EdgeInsets.symmetric(horizontal: 10.0),
+                              child: Text(
+                                'Or',
+                                style: TextStyle(
+                                    fontFamily: 'SpaceGrotesk',
+                                    color: Colors.grey[700]),
+                              ),
+                            ),
+                            Expanded(
+                              child: Divider(
+                                thickness: 0.5,
+                                color: Colors.grey[400],
+                              ),
                             ),
                           ],
                         ),
                       ),
-                    ),
+//
 
-                    const SizedBox(height: 25),
+                      const SizedBox(height: 20),
 
-                    // sign in button
-                    MyButton(
-                      text: "Sign In",
-                      onTap: signUserIn,
-                    ),
+                      // google + apple sign in buttons is supposed to be here
 
-                    const SizedBox(height: 50),
+                      const SizedBox(height: 7),
 
-                    // or continue with
-                    Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 25.0),
-                      child: Row(
+                      // not a member? register now
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
                         children: [
-                          Expanded(
-                            child: Divider(
-                              thickness: 0.5,
-                              color: Colors.grey[400],
-                            ),
+                          Text(
+                            'Not a member?',
+                            style: TextStyle(
+                                fontFamily: 'SpaceGrotesk',
+                                color: Colors.grey[700]),
                           ),
-                          Padding(
-                            padding:
-                                const EdgeInsets.symmetric(horizontal: 10.0),
-                            child: Text(
-                              'Or',
+                          const SizedBox(width: 4),
+                          GestureDetector(
+                            onTap: widget.onTap,
+                            child: const Text(
+                              'Register now',
                               style: TextStyle(
-                                  fontFamily: 'SpaceGrotesk',
-                                  color: Colors.grey[700]),
-                            ),
-                          ),
-                          Expanded(
-                            child: Divider(
-                              thickness: 0.5,
-                              color: Colors.grey[400],
+                                fontFamily: 'SpaceGrotesk',
+                                color: Color(0xff3964ff),
+                                fontWeight: FontWeight.bold,
+                              ),
                             ),
                           ),
                         ],
-                      ),
-                    ),
-//
-
-                    const SizedBox(height: 20),
-
-                    // google + apple sign in buttons is supposed to be here
-
-                    const SizedBox(height: 7),
-
-                    // not a member? register now
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Text(
-                          'Not a member?',
-                          style: TextStyle(
-                              fontFamily: 'SpaceGrotesk',
-                              color: Colors.grey[700]),
-                        ),
-                        const SizedBox(width: 4),
-                        GestureDetector(
-                          onTap: widget.onTap,
-                          child: const Text(
-                            'Register now',
-                            style: TextStyle(
-                              fontFamily: 'SpaceGrotesk',
-                              color: Color(0xff3964ff),
-                              fontWeight: FontWeight.bold,
-                            ),
-                          ),
-                        ),
-                      ],
-                    )
-                  ],
+                      )
+                    ],
+                  ),
                 ),
               ),
             ),
