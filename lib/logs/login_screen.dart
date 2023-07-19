@@ -61,9 +61,17 @@ class _LoginScreenState extends State<LoginScreen> {
                   child: ClipRRect(
                     borderRadius: BorderRadius.circular(30),
                     child: AlertDialog(
+                    actionsPadding: EdgeInsets.all(5),
                       backgroundColor: Colors.black,
-
-                      icon: Image.asset( 'images/think.png',scale: 2,),
+                      icon: Image.asset( 'images/think.png',scale: 2,height: 60,),
+                      actions: [Align(
+                        alignment: Alignment.topRight,
+                        child: GestureDetector(
+                            onTap: (){
+                              context.pop();
+                            },
+                            child: Icon(Icons.cancel,color: Colors.white,size: 32,)),
+                      )],
                       title: Center(
                         child: Column(
                           children: [
