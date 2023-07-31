@@ -1,7 +1,10 @@
+import 'package:change_collect_web/alm_kyc.dart';
 import 'package:change_collect_web/desktop_files/my_widgets.dart';
 import 'package:change_collect_web/desktop_files/textlist.dart';
 import 'package:change_collect_web/desktop_files/textwidget.dart';
 import 'package:change_collect_web/logs/onboarding_screen.dart';
+import 'package:change_collect_web/privacy.dart';
+import 'package:change_collect_web/term_use.dart';
 import 'package:flutter/material.dart';
 import 'package:change_collect_web/desktop_files/my_custom_appbar.dart';
 import 'package:go_router/go_router.dart';
@@ -359,13 +362,13 @@ class _DesktopState extends State<Desktop> {
             const SizedBox(
               height: 20,
             ),
-            const Row(
+               Row(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [
                 Column(
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
-                    Text(
+                   const Text(
                       'Products',
                       style: TextStyle(
                           fontWeight: FontWeight.bold,
@@ -375,19 +378,19 @@ class _DesktopState extends State<Desktop> {
                     ),
                     TextList(
                       onPressed: null,
-                      listtext: 'Collect Change',
+                      listText: 'Collect Change',
                     ),
                     TextList(
                       onPressed: null,
-                      listtext: 'Give Change',
+                      listText: 'Give Change',
                     ),
                     TextList(
                       onPressed: null,
-                      listtext: 'Exchange Fiat',
+                      listText: 'Exchange Fiat',
                     ),
                     TextList(
                       onPressed: null,
-                      listtext: 'Exchange Crypto',
+                      listText: 'Exchange Crypto',
                     ),
                   ],
                 ),
@@ -404,26 +407,26 @@ class _DesktopState extends State<Desktop> {
                     ),
                     TextList(
                       onPressed: null,
-                      listtext: 'About',
+                      listText: 'About',
                     ),
                     TextList(
                       onPressed: null,
-                      listtext: 'FAQs',
+                      listText: 'FAQs',
                     ),
                     TextList(
                       onPressed: null,
-                      listtext: 'Blog',
+                      listText: 'Blog',
                     ),
                     TextList(
                       onPressed: null,
-                      listtext: 'Contact Us',
+                      listText: 'Contact Us',
                     ),
                   ],
                 ),
                 Column(
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
-                    Text(
+                   const Text(
                       'Legal',
                       style: TextStyle(
                           fontWeight: FontWeight.bold,
@@ -432,20 +435,26 @@ class _DesktopState extends State<Desktop> {
                           fontSize: 13.0),
                     ),
                     TextList(
-                      onPressed: null,
-                      listtext: 'Privacy Policy',
+                      onPressed: (){
+                        context.goNamed(Privacy.id);
+                      },
+                      listText: 'Privacy Policy',
+                    ),
+                    TextList(
+                      onPressed: (){
+                        context.goNamed(TermOfUse.id);
+                      },
+                      listText: 'Terms Of Use',
+                    ),
+                    TextList(
+                      onPressed: (){
+                        context.goNamed(AlmView.rout);
+                      },
+                      listText: 'AML & KYC Policy',
                     ),
                     TextList(
                       onPressed: null,
-                      listtext: 'Terms Of Use',
-                    ),
-                    TextList(
-                      onPressed: null,
-                      listtext: 'AML & KYC Policy',
-                    ),
-                    TextList(
-                      onPressed: null,
-                      listtext: 'As featured',
+                      listText: 'As featured',
                     ),
                   ],
                 ),

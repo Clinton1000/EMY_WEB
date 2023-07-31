@@ -49,7 +49,7 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
           await FirebaseAuth.instance.createUserWithEmailAndPassword(email: _emailController.text, password: _passwordController.text);
           context.pop();
           context.pop();
-          showErrorMessage(title:"User Exist", message:"Your account has been created Successfully",);
+          showErrorMessage(title:"Congratulation", message:"Your account has been created Successfully",);
         } catch (e) {
           context.pop();
           String ee = e.toString();

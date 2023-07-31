@@ -1,7 +1,10 @@
 import 'package:change_collect_web/desktop_files/textlist.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import '../alm_kyc.dart';
 import '../logs/onboarding_screen.dart';
+import '../privacy.dart';
+import '../term_use.dart';
 import 'my_drawer.dart';
 import 'my_widget_mobile.dart';
 import 'textwidgetmobile.dart';
@@ -39,7 +42,7 @@ class _MobileState extends State<Mobile> {
                 Container(
                   margin: const EdgeInsets.symmetric(horizontal: 100.0),
                   padding: const EdgeInsets.all(10.0),
-                  height: _mediaQuery.size.height * 0.5,
+                  // height: _mediaQuery.size.height * 0.5,
                   width: _mediaQuery.size.width * 0.4,
                   child: Image.asset('images/landing_page.jpg'),
                 ),
@@ -47,7 +50,7 @@ class _MobileState extends State<Mobile> {
                   height: 20,
                 ),
                 SizedBox(
-                  height: _mediaQuery.size.height * 0.3,
+                  // height: _mediaQuery.size.height * 0.3,
                   width: _mediaQuery.size.width * 0.7,
                   child: Column(
                     children: [
@@ -65,7 +68,7 @@ class _MobileState extends State<Mobile> {
                         height: 10,
                       ),
                       SizedBox(
-                        height: _mediaQuery.size.height * 0.2,
+                        // height: _mediaQuery.size.height * 0.2,
                         width: _mediaQuery.size.width * 0.9,
                         child: const Text(
                           'Collect and give change as you transact with cash! Our mobile app gives you the ability to instantly turn your physical cash to a digital currency',
@@ -82,10 +85,10 @@ class _MobileState extends State<Mobile> {
                   ),
                 ),
                 const SizedBox(
-                  height: 30,
+                  height: 10,
                 ),
                 SizedBox(
-                  height: _mediaQuery.size.height * 0.2,
+                  // height: _mediaQuery.size.height * 0.2,
                   width: _mediaQuery.size.width * 0.9,
                   child: const Text(
                     'Easy-to-Use Features',
@@ -99,10 +102,10 @@ class _MobileState extends State<Mobile> {
                   ),
                 ),
                 const SizedBox(
-                  height: 30,
+                  height: 10,
                 ),
                 SizedBox(
-                  height: _mediaQuery.size.height * 0.3,
+                  // height: _mediaQuery.size.height * 0.3,
                   width: MediaQuery.of(context).size.width * 0.5,
                   child: const Text(
                     'Collect and give change in any fiat or crypto currency of your choice,convert fiat or crypto currencies and make your utility bill payments.',
@@ -116,7 +119,7 @@ class _MobileState extends State<Mobile> {
                   ),
                 ),
                 const SizedBox(
-                  height: 20,
+                  height: 10,
                 ),
                 ElevatedButton(
                   onHover: (value) {
@@ -124,7 +127,7 @@ class _MobileState extends State<Mobile> {
                       setState(() {
                         pricebuttonpapdding = MaterialStateProperty.all(
                             const EdgeInsets.symmetric(
-                                horizontal: 60, vertical: 30));
+                                horizontal: 10, vertical: 5));
                       });
                     } else {
                       setState(() {
@@ -156,10 +159,10 @@ class _MobileState extends State<Mobile> {
                           fontFamily: 'SpaceGrotesk',
                           color: Colors.white,
                           fontWeight: FontWeight.bold,
-                          fontSize: 25)),
+                          fontSize: 20)),
                 ),
                 const SizedBox(
-                  height: 20,
+                  height: 10,
                 ),
                 const Column(
                   children: [
@@ -178,7 +181,7 @@ class _MobileState extends State<Mobile> {
                   ],
                 ),
                 const SizedBox(
-                  height: 30,
+                  height: 10,
                 ),
                 const MyWidgetMobile(imagepath: 'images/give.png'),
                 const TextWidgetMobile(
@@ -193,27 +196,30 @@ class _MobileState extends State<Mobile> {
                       'Enable Crypto transactions such as,Crypto to crypto conversion,Crypto to fiat conversion,Fiat to crypto conversion.',
                 ),
                 const SizedBox(
-                  height: 20.0,
+                  height: 10.0,
                 ),
                 Container(
                   width: double.infinity,
-                  height: 100.0,
+                  // height: 100.0,
                   decoration: const BoxDecoration(color: Colors.black),
                   child: const Center(
-                    child: Text(
-                      textAlign: TextAlign.center,
-                      'The first of its Kind, instantly turns physical cash into digital currencies ',
-                      style: TextStyle(
-                        fontFamily: 'SpaceGrotesk',
-                        fontWeight: FontWeight.bold,
-                        fontSize: 15,
-                        color: Colors.white,
+                    child: Padding(
+                      padding: EdgeInsets.all(5.0),
+                      child: Text(
+                        textAlign: TextAlign.center,
+                        'The first of its Kind, instantly turns physical cash into digital currencies ',
+                        style: TextStyle(
+                          fontFamily: 'SpaceGrotesk',
+                          fontWeight: FontWeight.bold,
+                          fontSize: 14,
+                          color: Colors.white,
+                        ),
                       ),
                     ),
                   ),
                 ),
                 const SizedBox(
-                  height: 80.0,
+                  height: 20.0,
                 ),
                 Column(
                   mainAxisAlignment: MainAxisAlignment.center,
@@ -234,7 +240,7 @@ class _MobileState extends State<Mobile> {
                     Row(
                       children: [
                         SizedBox(
-                          height: 50,
+                          // height: 50,
                           width: _mediaQuery.size.width * 0.9,
                           child: Padding(
                             padding:
@@ -274,6 +280,7 @@ class _MobileState extends State<Mobile> {
                         ),
                       ],
                     ),
+                    SizedBox(height: 5,),
                     ElevatedButton(
                       style: ElevatedButton.styleFrom(
                           backgroundColor: Colors.black),
@@ -296,7 +303,7 @@ class _MobileState extends State<Mobile> {
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     SizedBox(
-                      height: 100,
+                       height: 100,
                       width: 250,
                       child: Padding(
                         padding: const EdgeInsets.all(40.0),
@@ -329,10 +336,10 @@ class _MobileState extends State<Mobile> {
                   ],
                 ),
                 const SizedBox(
-                  height: 20.0,
+                  height: 10.0,
                 ),
-                const Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                 Wrap(
+                  alignment: WrapAlignment.start,
                   children: [
                     Column(
                       crossAxisAlignment: CrossAxisAlignment.center,
@@ -347,19 +354,19 @@ class _MobileState extends State<Mobile> {
                         ),
                         TextList(
                           onPressed: null,
-                          listtext: 'Collect Change',
+                          listText: 'Collect Change',
                         ),
                         TextList(
                           onPressed: null,
-                          listtext: 'Give Change',
+                          listText: 'Give Change',
                         ),
                         TextList(
                           onPressed: null,
-                          listtext: 'Exchange Fiat',
+                          listText: 'Exchange Fiat',
                         ),
                         TextList(
                           onPressed: null,
-                          listtext: 'Exchange Crypto',
+                          listText: 'Exchange Crypto',
                         ),
                       ],
                     ),
@@ -376,19 +383,19 @@ class _MobileState extends State<Mobile> {
                         ),
                         TextList(
                           onPressed: null,
-                          listtext: 'About',
+                          listText: 'About',
                         ),
                         TextList(
                           onPressed: null,
-                          listtext: 'FAQs',
+                          listText: 'FAQs',
                         ),
                         TextList(
                           onPressed: null,
-                          listtext: 'Blog',
+                          listText: 'Blog',
                         ),
                         TextList(
                           onPressed: null,
-                          listtext: 'Contact Us',
+                          listText: 'Contact Us',
                         ),
                       ],
                     ),
@@ -404,27 +411,33 @@ class _MobileState extends State<Mobile> {
                               fontSize: 13.0),
                         ),
                         TextList(
-                          onPressed: null,
-                          listtext: 'Privacy Policy',
+                          onPressed: (){
+                            context.goNamed(Privacy.id);
+                          },
+                          listText: 'Privacy Policy',
+                        ),
+                        TextList(
+                          onPressed: (){
+                            context.goNamed(TermOfUse.id);
+                          },
+                          listText: 'Terms Of Use',
+                        ),
+                        TextList(
+                          onPressed: (){
+                            context.goNamed(AlmView.rout);
+                          },
+                          listText: 'AML & KYC Policy',
                         ),
                         TextList(
                           onPressed: null,
-                          listtext: 'Terms Of Use',
-                        ),
-                        TextList(
-                          onPressed: null,
-                          listtext: 'AML & KYC Policy',
-                        ),
-                        TextList(
-                          onPressed: null,
-                          listtext: 'As featured',
+                          listText: 'As featured',
                         ),
                       ],
                     ),
                   ],
                 ),
                 const SizedBox(
-                  height: 150.0,
+                  height: 30.0,
                 ),
                 Row(
                   children: [

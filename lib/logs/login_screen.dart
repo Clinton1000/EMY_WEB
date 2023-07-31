@@ -63,7 +63,7 @@ class _LoginScreenState extends State<LoginScreen> {
                     child: AlertDialog(
                     actionsPadding: EdgeInsets.all(5),
                       backgroundColor: Colors.black,
-                      icon: Image.asset( 'images/think.png',scale: 2,height: 60,),
+                      icon: Image.asset('images/think.png',scale: 2,height: 60,),
                       actions: [Align(
                         alignment: Alignment.topRight,
                         child: GestureDetector(
@@ -95,7 +95,6 @@ class _LoginScreenState extends State<LoginScreen> {
               },
             );
           });
-
         }
         //pop the loading circle
       } on FirebaseAuthException catch (e) {

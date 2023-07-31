@@ -11,7 +11,7 @@ class TextWidgetMobile extends StatelessWidget {
   Widget build(BuildContext context) {
     var _mediaQuery = MediaQuery.of(context);
     return SizedBox(
-      height: _mediaQuery.size.height * 0.2,
+      // height: _mediaQuery.size.height * 0.2,
       width: _mediaQuery.size.width * 0.9,
       child: Column(
         children: [

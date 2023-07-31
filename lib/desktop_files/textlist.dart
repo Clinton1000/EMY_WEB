@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 
 class TextList extends StatelessWidget {
-  final String listtext;
-  final Function()? onPressed;
+  final String listText;
+  final VoidCallback? onPressed;
 
-  const TextList({
+   TextList({
     Key? key,
-    required this.listtext,
+    required this.listText,
     required this.onPressed,
   }) : super(key: key);
 
@@ -15,7 +15,7 @@ class TextList extends StatelessWidget {
     return TextButton(
       onPressed: onPressed,
       child: Text(
-        listtext,
+        listText,
         style: const TextStyle(
             fontFamily: 'SpaceGrotesk',
             color: Colors.black,
