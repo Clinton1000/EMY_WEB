@@ -38,35 +38,7 @@ class _DesktopState extends State<Desktop> {
           children: [
             // MediaQuery.of(context).size.width > 720
             const MyCustomAppbar(),
-            //     : Container(
-            //         padding: const EdgeInsets.symmetric(horizontal: 30),
-            //         margin: const EdgeInsets.symmetric(
-            //             vertical: 20, horizontal: 60),
-            //         height: 80,
-            //         width: double.infinity,
-            //         decoration: BoxDecoration(
-            //             color: Colors.white,
-            //             border: Border.all(color: Colors.black, width: 2),
-            //             borderRadius: BorderRadius.circular(40)),
-            //         child: Row(
-            //           mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            //           children: [
-            //             Text(
-            //               'changecollect',
-            //               style: Theme.of(context)
-            //                   .textTheme
-            //                   .titleLarge!
-            //                   .copyWith(
-            //                       fontWeight: FontWeight.bold,
-            //                       color: Colors.black),
-            //             ),
-            //             IconButton(
-            //               onPressed: () {},
-            //               icon: const Icon(Icons.menu),
-            //             ),
-            //           ],
-            //         ),
-            //       ),
+
             const SizedBox(
               height: 50,
             ),
@@ -346,6 +318,13 @@ class _DesktopState extends State<Desktop> {
             const SizedBox(
               height: 5,
             ),
+
+            const SizedBox(
+              height: 20.0,
+            ),
+            const SizedBox(
+              height: 20.0,
+            ),
             Row(
               children: [
                 Expanded(
@@ -357,18 +336,15 @@ class _DesktopState extends State<Desktop> {
               ],
             ),
             const SizedBox(
-              height: 200.0,
+              height: 10.0,
             ),
-            const SizedBox(
-              height: 20,
-            ),
-               Row(
+            Row(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [
-                Column(
+                const Column(
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
-                   const Text(
+                    Text(
                       'Products',
                       style: TextStyle(
                           fontWeight: FontWeight.bold,
@@ -394,7 +370,7 @@ class _DesktopState extends State<Desktop> {
                     ),
                   ],
                 ),
-                Column(
+                const Column(
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
                     Text(
@@ -426,7 +402,7 @@ class _DesktopState extends State<Desktop> {
                 Column(
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
-                   const Text(
+                    const Text(
                       'Legal',
                       style: TextStyle(
                           fontWeight: FontWeight.bold,
@@ -435,24 +411,24 @@ class _DesktopState extends State<Desktop> {
                           fontSize: 13.0),
                     ),
                     TextList(
-                      onPressed: (){
+                      onPressed: () {
                         context.goNamed(Privacy.id);
                       },
                       listText: 'Privacy Policy',
                     ),
                     TextList(
-                      onPressed: (){
+                      onPressed: () {
                         context.goNamed(TermOfUse.id);
                       },
                       listText: 'Terms Of Use',
                     ),
                     TextList(
-                      onPressed: (){
+                      onPressed: () {
                         context.goNamed(AlmView.rout);
                       },
                       listText: 'AML & KYC Policy',
                     ),
-                    TextList(
+                    const TextList(
                       onPressed: null,
                       listText: 'As featured',
                     ),
@@ -461,7 +437,7 @@ class _DesktopState extends State<Desktop> {
               ],
             ),
             const SizedBox(
-              height: 10.0,
+              height: 200.0,
             ),
             Row(
               children: [

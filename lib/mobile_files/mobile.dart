@@ -280,7 +280,9 @@ class _MobileState extends State<Mobile> {
                         ),
                       ],
                     ),
-                    SizedBox(height: 5,),
+                    const SizedBox(
+                      height: 5,
+                    ),
                     ElevatedButton(
                       style: ElevatedButton.styleFrom(
                           backgroundColor: Colors.black),
@@ -303,7 +305,7 @@ class _MobileState extends State<Mobile> {
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     SizedBox(
-                       height: 100,
+                      height: 100,
                       width: 250,
                       child: Padding(
                         padding: const EdgeInsets.all(40.0),
@@ -338,10 +340,10 @@ class _MobileState extends State<Mobile> {
                 const SizedBox(
                   height: 10.0,
                 ),
-                 Wrap(
+                Wrap(
                   alignment: WrapAlignment.start,
                   children: [
-                    Column(
+                    const Column(
                       crossAxisAlignment: CrossAxisAlignment.center,
                       children: [
                         Text(
@@ -370,7 +372,7 @@ class _MobileState extends State<Mobile> {
                         ),
                       ],
                     ),
-                    Column(
+                    const Column(
                       crossAxisAlignment: CrossAxisAlignment.center,
                       children: [
                         Text(
@@ -402,7 +404,7 @@ class _MobileState extends State<Mobile> {
                     Column(
                       crossAxisAlignment: CrossAxisAlignment.center,
                       children: [
-                        Text(
+                        const Text(
                           'Legal',
                           style: TextStyle(
                               fontWeight: FontWeight.bold,
@@ -411,24 +413,24 @@ class _MobileState extends State<Mobile> {
                               fontSize: 13.0),
                         ),
                         TextList(
-                          onPressed: (){
+                          onPressed: () {
                             context.goNamed(Privacy.id);
                           },
                           listText: 'Privacy Policy',
                         ),
                         TextList(
-                          onPressed: (){
+                          onPressed: () {
                             context.goNamed(TermOfUse.id);
                           },
                           listText: 'Terms Of Use',
                         ),
                         TextList(
-                          onPressed: (){
+                          onPressed: () {
                             context.goNamed(AlmView.rout);
                           },
                           listText: 'AML & KYC Policy',
                         ),
-                        TextList(
+                        const TextList(
                           onPressed: null,
                           listText: 'As featured',
                         ),

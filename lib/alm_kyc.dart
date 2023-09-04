@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_widget_from_html/flutter_widget_from_html.dart';
 
 class AlmView extends StatelessWidget {
-  static String rout='AlmView';
+  static String rout = 'AlmView';
   const AlmView({super.key});
 
   @override
@@ -10,7 +10,7 @@ class AlmView extends StatelessWidget {
     return const Scaffold(
       backgroundColor: Colors.white,
       body: Padding(
-        padding: const EdgeInsets.symmetric(horizontal:30.0,vertical: 10),
+        padding: EdgeInsets.symmetric(horizontal: 30.0, vertical: 10),
         child: SingleChildScrollView(
           child: HtmlWidget("""
          <!DOCTYPE html>

@@ -4,7 +4,7 @@ class TextList extends StatelessWidget {
   final String listText;
   final VoidCallback? onPressed;
 
-   TextList({
+  const TextList({
     Key? key,
     required this.listText,
     required this.onPressed,
